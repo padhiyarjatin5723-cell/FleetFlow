@@ -11,12 +11,13 @@ import documentRoutes from "../modules/document/index.js";
 import notificationRoutes from "../modules/notification/index.js";
 import dashboardRoutes from "../modules/dashboard/index.js";
 import auditLogRoutes from "../modules/auditLog/index.js";
+
 const router = Router();
 
 router.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "FleetFlow API Running 🚀",
+    message: "FleetFlow API Running",
   });
 });
 

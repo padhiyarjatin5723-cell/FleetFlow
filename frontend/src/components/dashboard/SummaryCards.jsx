@@ -1,34 +1,42 @@
-import { useEffect, useState } from "react";
-import dashboardService from "../../services/dashboard.service";
-import SummaryCards from "../../components/dashboard/SummaryCards";
+import StatCard from "./StatCard";
 
-const Dashboard = () => {
-  const [summary, setSummary] = useState(null);
+const summaryCards = [
+  { key: "totalVehicles", title: "Total Vehicles" },
+  { key: "availableVehicles", title: "Available Vehicles" },
+  { key: "totalDrivers", title: "Total Drivers" },
+  { key: "availableDrivers", title: "Available Drivers" },
+  { key: "totalTrips", title: "Total Trips" },
+  { key: "activeTrips", title: "Active Trips" },
+  { key: "pendingMaintenance", title: "Pending Maintenance" },
+  { key: "totalExpenses", title: "Total Expenses", format: "currency" },
+];
 
-  useEffect(() => {
-    loadDashboard();
-  }, []);
+const formatValue = (value, format) => {
+  if (value === undefined || value === null) return "-";
 
-  const loadDashboard = async () => {
-    try {
-      const res = await dashboardService.getSummary();
-      setSummary(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  if (format === "currency") {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(Number(value));
+  }
 
+  return value;
+};
+
+const SummaryCards = ({ summary }) => {
   return (
-    <div className="p-8">
-
-      <h1 className="text-3xl font-bold mb-8">
-        Dashboard
-      </h1>
-
-      <SummaryCards summary={summary} />
-
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      {summaryCards.map((card) => (
+        <StatCard
+          key={card.key}
+          title={card.title}
+          value={formatValue(summary?.[card.key], card.format)}
+        />
+      ))}
     </div>
   );
 };
 
-export default Dashboard;
+export default SummaryCards;

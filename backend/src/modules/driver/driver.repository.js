@@ -31,10 +31,36 @@ class DriverRepository {
     });
   }
 
-  async getAllDrivers() {
+  async getAllDrivers(filters = {}) {
+    const where = {
+      deletedAt: null,
+    };
+
+    if (filters.status) where.status = filters.status;
+
+    if (filters.search) {
+      where.OR = [
+        { fullName: { contains: filters.search, mode: "insensitive" } },
+        { employeeCode: { contains: filters.search, mode: "insensitive" } },
+        { licenseNumber: { contains: filters.search, mode: "insensitive" } },
+      ];
+    }
+
+    if (filters.licenseExpiring === "true") {
+      const today = new Date();
+      const soon = new Date();
+      soon.setDate(today.getDate() + 30);
+
+      where.licenseExpiry = {
+        gte: today,
+        lte: soon,
+      };
+    }
+
     return await prisma.driver.findMany({
-      where: {
-        deletedAt: null,
+      where,
+      orderBy: {
+        createdAt: "desc",
       },
     });
   }
@@ -43,6 +69,20 @@ class DriverRepository {
     return await prisma.driver.findUnique({
       where: {
         id,
+      },
+      include: {
+        trips: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 10,
+        },
+        documents: {
+          orderBy: {
+            uploadedAt: "desc",
+          },
+          take: 10,
+        },
       },
     });
   }

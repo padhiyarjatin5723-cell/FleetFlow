@@ -34,11 +34,12 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "🚀 FleetFlow Backend Running Successfully",
+    message: "FleetFlow Backend Running Successfully",
   });
 });
 
 // API Routes
 app.use("/api", routes);
 app.use(errorHandler);
+
 export default app;

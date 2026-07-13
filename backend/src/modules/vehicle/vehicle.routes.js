@@ -6,44 +6,31 @@ import roleMiddleware from "../../middleware/role.middleware.js";
 import {
   createVehicle,
   getAllVehicles,
+  getAvailableVehicles,
   getVehicleById,
   updateVehicle,
+  updateVehicleStatus,
   deleteVehicle,
+  getVehicleHistory,
 } from "./vehicle.controller.js";
 
 const router = Router();
 
-router.post(
-  "/",
+router.post("/", authMiddleware, roleMiddleware("ADMIN"), createVehicle);
+
+router.get("/", authMiddleware, getAllVehicles);
+router.get("/available", authMiddleware, getAvailableVehicles);
+router.get("/:id/history", authMiddleware, getVehicleHistory);
+router.get("/:id", authMiddleware, getVehicleById);
+
+router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), updateVehicle);
+router.patch(
+  "/:id/status",
   authMiddleware,
   roleMiddleware("ADMIN"),
-  createVehicle
+  updateVehicleStatus
 );
 
-router.get(
-  "/",
-  authMiddleware,
-  getAllVehicles
-);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  getVehicleById
-);
-
-router.put(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("ADMIN"),
-  updateVehicle
-);
-
-router.delete(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("ADMIN"),
-  deleteVehicle
-);
+router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), deleteVehicle);
 
 export default router;

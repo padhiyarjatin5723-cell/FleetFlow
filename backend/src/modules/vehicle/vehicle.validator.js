@@ -37,6 +37,33 @@ export const createVehicleSchema = z.object({
   ]),
 
   purchaseDate: z.coerce.date(),
+
+  vin: z
+    .string()
+    .max(100)
+    .optional()
+    .nullable(),
+
+  status: z
+    .enum(["AVAILABLE", "ON_TRIP", "IN_MAINTENANCE", "OUT_OF_SERVICE"])
+    .optional(),
+
+  acquisitionCost: z
+    .number()
+    .positive()
+    .optional()
+    .nullable(),
+
+  currentOdometer: z
+    .number()
+    .nonnegative()
+    .optional()
+    .nullable(),
+
+  notes: z
+    .string()
+    .optional()
+    .nullable(),
 });
 
 export const updateVehicleSchema =

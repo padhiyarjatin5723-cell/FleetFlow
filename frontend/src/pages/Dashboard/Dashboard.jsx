@@ -6,17 +6,26 @@ const Dashboard = () => {
   const [summary, setSummary] = useState(null);
 
   useEffect(() => {
-    loadDashboard();
-  }, []);
+    let isMounted = true;
 
-  const loadDashboard = async () => {
-    try {
-      const res = await dashboardService.getSummary();
-      setSummary(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    const loadDashboard = async () => {
+      try {
+        const res = await dashboardService.getSummary();
+
+        if (isMounted) {
+          setSummary(res.data.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadDashboard();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="p-8">

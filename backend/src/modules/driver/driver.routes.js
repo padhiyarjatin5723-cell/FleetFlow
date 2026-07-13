@@ -6,44 +6,31 @@ import roleMiddleware from "../../middleware/role.middleware.js";
 import {
   createDriver,
   getAllDrivers,
+  getAvailableDrivers,
   getDriverById,
+  getDriverTrips,
   updateDriver,
+  updateDriverStatus,
   deleteDriver,
 } from "./driver.controller.js";
 
 const router = Router();
 
-router.post(
-  "/",
+router.post("/", authMiddleware, roleMiddleware("ADMIN"), createDriver);
+
+router.get("/", authMiddleware, getAllDrivers);
+router.get("/available", authMiddleware, getAvailableDrivers);
+router.get("/:id/trips", authMiddleware, getDriverTrips);
+router.get("/:id", authMiddleware, getDriverById);
+
+router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), updateDriver);
+router.patch(
+  "/:id/status",
   authMiddleware,
   roleMiddleware("ADMIN"),
-  createDriver
+  updateDriverStatus
 );
 
-router.get(
-  "/",
-  authMiddleware,
-  getAllDrivers
-);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  getDriverById
-);
-
-router.put(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("ADMIN"),
-  updateDriver
-);
-
-router.delete(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("ADMIN"),
-  deleteDriver
-);
+router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), deleteDriver);
 
 export default router;

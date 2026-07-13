@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import vehicleService from "../../services/vehicle.service";
 import VehicleTable from "../../components/Vehicle/VehicleTable";
 import VehicleModal from "../../components/Vehicle/VehicleModal";
@@ -8,14 +8,28 @@ const VehicleList = () => {
   const [open, setOpen] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
-  useEffect(() => {
-    loadVehicles();
-  }, []);
-
-  const loadVehicles = async () => {
+  const loadVehicles = useCallback(async () => {
     const res = await vehicleService.getVehicles();
     setVehicles(res.data.data);
-  };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadInitialVehicles = async () => {
+      const res = await vehicleService.getVehicles();
+
+      if (isMounted) {
+        setVehicles(res.data.data);
+      }
+    };
+
+    loadInitialVehicles();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [loadVehicles]);
 
   const handleAdd = () => {
     setSelectedVehicle(null);

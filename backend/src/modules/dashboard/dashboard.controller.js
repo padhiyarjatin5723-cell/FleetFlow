@@ -1,7 +1,5 @@
 import * as dashboardService from "./dashboard.service.js";
 
-console.log(dashboardService);
-
 export const getDashboardSummary = async (req, res, next) => {
   try {
     const data = await dashboardService.getDashboardSummary();
