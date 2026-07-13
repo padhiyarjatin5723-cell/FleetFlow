@@ -12,14 +12,38 @@ class TripRepository {
   async createTrip(data) {
     return await prisma.trip.create({
       data,
+      include: {
+        vehicle: true,
+        driver: true,
+      },
     });
   }
 
-  async getAllTrips() {
+  async getAllTrips(filters = {}) {
+    const where = {
+      deletedAt: null,
+    };
+
+    if (filters.status) where.status = filters.status;
+    if (filters.vehicleId) where.vehicleId = filters.vehicleId;
+    if (filters.driverId) where.driverId = filters.driverId;
+
+    if (filters.search) {
+      where.OR = [
+        { tripNumber: { contains: filters.search, mode: "insensitive" } },
+        { source: { contains: filters.search, mode: "insensitive" } },
+        { destination: { contains: filters.search, mode: "insensitive" } },
+      ];
+    }
+
+    if (filters.dateFrom || filters.dateTo) {
+      where.scheduledStart = {};
+      if (filters.dateFrom) where.scheduledStart.gte = new Date(filters.dateFrom);
+      if (filters.dateTo) where.scheduledStart.lte = new Date(filters.dateTo);
+    }
+
     return await prisma.trip.findMany({
-      where: {
-        deletedAt: null,
-      },
+      where,
       include: {
         vehicle: true,
         driver: true,
@@ -38,6 +62,9 @@ class TripRepository {
       include: {
         vehicle: true,
         driver: true,
+        fuelLogs: true,
+        expenses: true,
+        maintenanceLogs: true,
       },
     });
   }
@@ -48,6 +75,10 @@ class TripRepository {
         id,
       },
       data,
+      include: {
+        vehicle: true,
+        driver: true,
+      },
     });
   }
 

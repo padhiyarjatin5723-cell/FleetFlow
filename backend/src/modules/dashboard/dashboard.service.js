@@ -4,12 +4,16 @@ export const getDashboardSummary = async () => {
   return await dashboardRepository.getDashboardSummary();
 };
 
-export const getRecentTrips = async () => {
-  return await dashboardRepository.getRecentTrips();
+export const getRecentTrips = async (query = {}) => {
+  return await dashboardRepository.getRecentTrips(query.limit, query.status);
 };
 
 export const getUpcomingMaintenance = async () => {
   return await dashboardRepository.getUpcomingMaintenance();
+};
+
+export const getLicenseExpiryAlerts = async (query = {}) => {
+  return await dashboardRepository.getLicenseExpiryAlerts(query.withinDays);
 };
 
 export const getVehicleStatus = async () => {
@@ -22,4 +26,8 @@ export const getDriverStatus = async () => {
 
 export const getMonthlyExpense = async () => {
   return await dashboardRepository.getMonthlyExpense();
+};
+
+export const getRecentActivity = async () => {
+  return await dashboardRepository.getRecentActivity();
 };

@@ -8,35 +8,23 @@ import {
   getAllMaintenances,
   getMaintenanceById,
   updateMaintenance,
+  completeMaintenance,
   deleteMaintenance,
 } from "./maintenance.controller.js";
 
 const router = Router();
 
-router.post(
-  "/",
+router.post("/", authMiddleware, roleMiddleware("ADMIN"), createMaintenance);
+
+router.get("/", authMiddleware, getAllMaintenances);
+router.get("/:id", authMiddleware, getMaintenanceById);
+
+router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), updateMaintenance);
+router.patch(
+  "/:id/complete",
   authMiddleware,
   roleMiddleware("ADMIN"),
-  createMaintenance
-);
-
-router.get(
-  "/",
-  authMiddleware,
-  getAllMaintenances
-);
-
-router.get(
-  "/:id",
-  authMiddleware,
-  getMaintenanceById
-);
-
-router.put(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("ADMIN"),
-  updateMaintenance
+  completeMaintenance
 );
 
 router.delete(
