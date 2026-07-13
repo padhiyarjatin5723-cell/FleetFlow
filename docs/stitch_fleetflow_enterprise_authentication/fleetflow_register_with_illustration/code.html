@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FleetFlow | Enterprise Registration</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#585be6",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-background": "#151c27",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#c0c1ff",
+                    "secondary-fixed-dim": "#4edea3",
+                    "secondary-fixed": "#6ffbbe",
+                    "outline": "#737686",
+                    "inverse-surface": "#2a313d",
+                    "surface-container-highest": "#dce2f3",
+                    "surface-variant": "#dce2f3",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#e1e0ff",
+                    "on-tertiary-fixed": "#07006c",
+                    "on-tertiary-container": "#f1eeff",
+                    "inverse-on-surface": "#ebf1ff",
+                    "surface-tint": "#0053db",
+                    "secondary": "#006c49",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "secondary-container": "#6cf8bb",
+                    "outline-variant": "#c3c6d7",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d3daea",
+                    "primary-container": "#2563eb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#434655",
+                    "primary-fixed": "#dbe1ff",
+                    "on-surface": "#151c27",
+                    "on-secondary-container": "#00714d",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e7eefe",
+                    "on-secondary-fixed": "#002113",
+                    "background": "#f9f9ff",
+                    "surface-container-high": "#e2e8f8",
+                    "surface": "#f9f9ff",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-bright": "#f9f9ff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#eeefff",
+                    "tertiary": "#3e3fcc",
+                    "primary": "#004ac6",
+                    "surface-container-low": "#f0f3ff",
+                    "on-tertiary-fixed-variant": "#2f2ebe",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-primary-fixed": "#00174b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "16px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "2xl": "48px",
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "margin-mobile": "16px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "base": "4px",
+                    "lg": "24px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .floating-label-group {
+            position: relative;
+        }
+        .floating-label-group input:focus ~ label,
+        .floating-label-group input:not(:placeholder-shown) ~ label,
+        .floating-label-group select:focus ~ label,
+        .floating-label-group select:not([value=""]):valid ~ label {
+            top: -10px;
+            left: 12px;
+            font-size: 12px;
+            color: #2563eb;
+            background-color: white;
+            padding: 0 4px;
+        }
+        .form-input-focus {
+            transition: all 150ms ease-in-out;
+        }
+        .form-input-focus:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        .password-strength-meter {
+            height: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex items-stretch overflow-x-hidden">
+<!-- SPLIT SCREEN LAYOUT -->
+<main class="w-full flex flex-col md:flex-row">
+<!-- LEFT SECTION: BRANDING & ILLUSTRATION -->
+<section class="hidden md:flex md:w-5/12 lg:w-1/2 bg-surface-container-low p-2xl flex-col justify-between relative overflow-hidden">
+<!-- Branding Header -->
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-xl">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">FleetFlow</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-md max-w-md">Join FleetFlow</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Create your organization account and start managing vehicles, drivers, trips, maintenance, and logistics more efficiently.
+                </p>
+</div>
+<!-- Illustration Area -->
+<div class="relative z-10 mt-auto pt-xl">
+<img alt="A premium, minimalist enterprise logistics illustration for a SaaS registration page. A modern sleek white semi-truck driving through a digital network of glowing nodes and lines representing global connectivity and logistics tracking." class="w-full h-auto drop-shadow-2xl rounded-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApu7axcu0RIsLzFX-ApeE6J1yh0QBCkXNjFUhC56jQ369R5BHBELLgftjhXY0tq1mUwfGkSu5rqCxnhFIyJvJ12lYgJ2ZS10bNN72QEr1P-jSmxQzCtnBX_kAH3-WVAzjVCDGhQr_7HbAh9w8lGwhnfeDYU_MxUus7YoVZJYkLw7D_0OH09uXMFoVo37qJd67y22Uw-mRmzAjsXSWbEduDjs1igQbqMJnIjtzUo1z_aCaxGN6yWfvebXfQpibh2bkS0S0fsSAW8Ump"/>
+</div>
+<!-- Background Decorative Elements -->
+<div class="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-primary opacity-5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl"></div>
+</section>
+<!-- RIGHT SECTION: REGISTRATION CARD -->
+<section class="flex-1 flex items-center justify-center p-md sm:p-lg bg-background">
+<div class="w-full max-w-[560px] bg-white rounded-2xl shadow-sm border border-outline-variant p-lg md:p-xl">
+<!-- Header -->
+<div class="mb-xl">
+<div class="md:hidden flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">FleetFlow</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Create Account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Register your organization to access FleetFlow.</p>
+</div>
+<!-- Registration Form -->
+<form class="space-y-gutter" id="registrationForm">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Full Name -->
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus placeholder-transparent" id="fullName" name="fullName" placeholder=" " required="" type="text"/>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="fullName">Full Name</label>
+</div>
+<!-- Company Name -->
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">business</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus placeholder-transparent" id="companyName" name="companyName" placeholder=" " required="" type="text"/>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="companyName">Company Name</label>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Work Email -->
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">mail</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus placeholder-transparent" id="email" name="email" placeholder=" " required="" type="email"/>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="email">Work Email</label>
+</div>
+<!-- Phone Number -->
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">call</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus placeholder-transparent" id="phone" name="phone" placeholder=" " required="" type="tel"/>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="phone">Phone Number</label>
+</div>
+</div>
+<!-- Role Dropdown -->
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">badge</span>
+<select class="w-full pl-10 pr-10 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus appearance-none" id="role" name="role" required="">
+<option disabled="" selected="" value=""></option>
+<option value="manager">Fleet Manager</option>
+<option value="dispatcher">Dispatcher</option>
+<option value="safety">Safety Officer</option>
+<option value="analyst">Financial Analyst</option>
+</select>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="role">Your Role</label>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+<!-- Password Section -->
+<div class="space-y-sm">
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
+<input class="w-full pl-10 pr-12 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus placeholder-transparent" id="password" name="password" placeholder=" " required="" type="password"/>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="password">Password</label>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePassword('password', this)" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<!-- Password Strength Indicator -->
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="password-strength-meter bg-error w-0" id="strengthBar"></div>
+</div>
+<div class="flex justify-between items-center px-1">
+<p class="text-label-sm font-label-sm text-on-surface-variant" id="strengthText">Security Level: None</p>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="floating-label-group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">lock_reset</span>
+<input class="w-full pl-10 pr-12 py-3 bg-white border border-outline-variant rounded-lg text-on-surface font-body-md form-input-focus placeholder-transparent" id="confirmPassword" name="confirmPassword" placeholder=" " required="" type="password"/>
+<label class="absolute left-10 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md transition-all pointer-events-none" for="confirmPassword">Confirm Password</label>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePassword('confirmPassword', this)" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<!-- Terms & Conditions -->
+<div class="flex items-start gap-3 pt-sm">
+<div class="flex items-center h-5">
+<input class="w-5 h-5 text-primary border-outline-variant rounded focus:ring-primary/20" id="terms" name="terms" required="" type="checkbox"/>
+</div>
+<label class="text-label-md font-label-md text-on-surface-variant" for="terms">
+                            I agree to the <a class="text-primary hover:underline" href="#">Terms of Service</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+                        </label>
+</div>
+<!-- Actions -->
+<div class="space-y-md pt-md">
+<button class="w-full py-3.5 bg-primary-container text-white font-bold rounded-lg shadow-md hover:bg-primary transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
+<span>Create Account</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<div class="text-center">
+<p class="font-label-md text-label-md text-on-surface-variant">
+                                Already have an account? 
+                                <a class="text-primary font-bold hover:underline ml-1" href="#">Sign In</a>
+</p>
+</div>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- UI Micro-interactions Script -->
+<script>
+        // Password Visibility Toggle
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('.material-symbols-outlined');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        }
+
+        // Password Strength Logic
+        const passInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+
+        passInput.addEventListener('input', () => {
+            const val = passInput.value;
+            let strength = 0;
+            if (val.length > 5) strength += 25;
+            if (val.match(/[A-Z]/)) strength += 25;
+            if (val.match(/[0-9]/)) strength += 25;
+            if (val.match(/[^A-Za-z0-9]/)) strength += 25;
+
+            strengthBar.style.width = strength + '%';
+            
+            if (strength <= 25) {
+                strengthBar.className = 'password-strength-meter bg-error';
+                strengthText.innerText = val.length === 0 ? 'Security Level: None' : 'Security Level: Weak';
+                strengthText.className = 'text-label-sm font-label-sm text-error';
+            } else if (strength <= 75) {
+                strengthBar.className = 'password-strength-meter bg-tertiary';
+                strengthText.innerText = 'Security Level: Medium';
+                strengthText.className = 'text-label-sm font-label-sm text-tertiary';
+            } else {
+                strengthBar.className = 'password-strength-meter bg-secondary';
+                strengthText.innerText = 'Security Level: Strong';
+                strengthText.className = 'text-label-sm font-label-sm text-secondary';
+            }
+        });
+
+        // Form Submit Simulation
+        document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Processing...';
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Success!';
+                btn.classList.replace('bg-primary-container', 'bg-secondary');
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                    btn.classList.replace('bg-secondary', 'bg-primary-container');
+                    alert('Registration submitted! (Prototype Demo Only)');
+                }, 1500);
+            }, 2000);
+        });
+    </script>
+</body></html>

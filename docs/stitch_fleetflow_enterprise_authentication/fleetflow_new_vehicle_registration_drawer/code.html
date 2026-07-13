@@ -1,0 +1,454 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FleetFlow | New Vehicle Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#f1eeff",
+                    "on-secondary-fixed": "#002113",
+                    "secondary-fixed-dim": "#4edea3",
+                    "inverse-on-surface": "#ebf1ff",
+                    "surface-tint": "#0053db",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#dbe1ff",
+                    "primary": "#004ac6",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "tertiary-fixed": "#e1e0ff",
+                    "on-surface": "#151c27",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-low": "#f0f3ff",
+                    "secondary-container": "#6cf8bb",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-container": "#e7eefe",
+                    "on-tertiary-fixed-variant": "#2f2ebe",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#434655",
+                    "surface-dim": "#d3daea",
+                    "surface-bright": "#f9f9ff",
+                    "outline": "#737686",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "background": "#f9f9ff",
+                    "surface": "#f9f9ff",
+                    "inverse-primary": "#b4c5ff",
+                    "on-primary-container": "#eeefff",
+                    "tertiary-container": "#585be6",
+                    "secondary": "#006c49",
+                    "surface-container-highest": "#dce2f3",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-variant": "#dce2f3",
+                    "on-background": "#151c27",
+                    "on-tertiary-fixed": "#07006c",
+                    "inverse-surface": "#2a313d",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "tertiary": "#3e3fcc",
+                    "on-secondary-container": "#00714d",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#c0c1ff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#2563eb",
+                    "surface-container-high": "#e2e8f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "container-max": "1440px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        .slide-over-enter {
+            transform: translateX(100%);
+        }
+        .slide-over-active {
+            transform: translateX(0);
+            transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface overflow-hidden">
+<!-- Background Mock (Vehicle Registry Screen) -->
+<div class="flex h-screen w-full">
+<!-- Predicted SideNav Implementation -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 p-md border-r border-outline-variant/20 bg-inverse-surface z-50">
+<div class="flex items-center gap-3 px-4 mb-8">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-white leading-none">FleetFlow</h1>
+<p class="text-label-sm text-surface-variant font-medium tracking-wider uppercase opacity-70">Enterprise Logistics</p>
+</div>
+</div>
+<nav class="flex-1 space-y-base overflow-y-auto"><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-label-md">Dashboard</span></a><a class="flex items-center gap-md bg-primary-container text-on-primary-container rounded-lg px-md py-sm shadow-lg" href="#"><span class="material-symbols-outlined">local_shipping</span><span class="font-label-md">Vehicle Registry</span></a><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">route</span><span class="font-label-md">Trip Dispatcher</span></a><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">build</span><span class="font-label-md">Maintenance</span></a><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">payments</span><span class="font-label-md">Fuel &amp; Expenses</span></a><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">analytics</span><span class="font-label-md">Analytics</span></a><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">description</span><span class="font-label-md">Reports</span></a><a class="flex items-center gap-md text-surface-variant px-md py-sm hover:bg-white/10 transition-all rounded-lg" href="#"><span class="material-symbols-outlined">settings</span><span class="font-label-md">Settings</span></a></nav>
+<div class="mt-auto border-t border-white/10 pt-md space-y-base"></div>
+</aside>
+<!-- Main Content (Background Screen Content) -->
+<main class="ml-64 flex-1 flex flex-col bg-background h-screen overflow-hidden">
+<header class="flex items-center h-16 px-8 border-b border-outline-variant bg-surface/95 backdrop-blur-md sticky top-0 z-40 justify-end">
+
+<div class="flex items-center gap-4"><button class="p-2 text-on-surface-variant hover:bg-surface-container-high/50 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button><button class="p-2 text-on-surface-variant hover:bg-surface-container-high/50 rounded-full transition-all">
+<span class="material-symbols-outlined">mail</span>
+</button>
+
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden ml-2 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate logistics manager, clean lighting, soft background blur, wearing a formal navy blue blazer, high-quality digital photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD8N9ID7W4tO4dNkSx8WyVjk7qJYEwW5X1mcRVTWUjHE6x2O7Wp6ca8WajRL-qhNNz345CCylsDWA_7IeKiDohB7ZAPlm9AoGJlLHfce3beeFOSNtJ6a3rDkJMUzU7jOd6hhXlHRLNwpYg5yPmyZ8huLISQzLs3jKvabxwNMR0NzKvJBW-G7Nh-Fn-lpfOWowChtYt7TmpAKoQpiXGXOqr6EWLabrWCouCVwDJ7q1vimMPtlnjJjwuF8RsWSu-fmmlg6j7pyUZFNBV">
+</div></div>
+</header>
+<section class="p-lg flex-1 overflow-auto custom-scrollbar">
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Vehicle Registry</h2>
+<p class="font-body-md text-on-surface-variant">Manage and monitor your enterprise fleet assets.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2.5 border border-outline text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-all">Export Fleet Data</button>
+<button class="px-4 py-2.5 bg-primary text-on-primary rounded-lg font-label-md hover:shadow-lg transition-all flex items-center gap-2" id="trigger-drawer">
+<span class="material-symbols-outlined">add</span>
+                            Register Vehicle
+                        </button>
+</div>
+</div>
+<!-- Placeholder Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-sm opacity-50">
+<div class="h-32 bg-surface-container mb-md rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-4xl">local_shipping</span>
+</div>
+<div class="h-4 bg-surface-container w-3/4 mb-sm rounded"></div>
+<div class="h-4 bg-surface-container w-1/2 rounded"></div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-sm opacity-50">
+<div class="h-32 bg-surface-container mb-md rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-4xl">local_shipping</span>
+</div>
+<div class="h-4 bg-surface-container w-3/4 mb-sm rounded"></div>
+<div class="h-4 bg-surface-container w-1/2 rounded"></div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-sm opacity-50">
+<div class="h-32 bg-surface-container mb-md rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-4xl">local_shipping</span>
+</div>
+<div class="h-4 bg-surface-container w-3/4 mb-sm rounded"></div>
+<div class="h-4 bg-surface-container w-1/2 rounded"></div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Overlay Wrapper -->
+<div class="fixed inset-0 bg-black/40 z-50 transition-opacity duration-300 hidden" id="drawer-overlay">
+<!-- Slide-over Drawer -->
+<div class="absolute right-0 top-0 h-full w-[560px] bg-surface-container-lowest shadow-2xl flex flex-col transition-transform duration-350 ease-out slide-over-enter" id="drawer-panel">
+<!-- Header -->
+<div class="p-lg border-b border-outline-variant flex items-center justify-between glass-header">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl" data-weight="fill">local_shipping</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">New Vehicle Registration</h2>
+<p class="font-body-md text-on-surface-variant">Register a new vehicle into your fleet.</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-high flex items-center justify-center text-outline transition-colors" id="close-drawer">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<div class="flex-1 overflow-y-auto p-lg custom-scrollbar">
+<form class="space-y-lg pb-xl" id="vehicle-form">
+<!-- Basic Info Group -->
+<div class="space-y-md">
+<label class="block group">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Vehicle Name</span>
+<div class="relative flex items-center border border-outline-variant rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+<span class="material-symbols-outlined ml-4 text-outline">badge</span>
+<input class="w-full border-none focus:ring-0 py-3 text-on-surface placeholder:text-outline-variant" placeholder="e.g. Heavy Duty Express 01" type="text">
+</div>
+</label>
+<div class="grid grid-cols-2 gap-md">
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">License Plate</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="ABC-1234" type="text">
+</label>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Manufacturer</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="e.g. Scania, Volvo" type="text">
+</label>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Model</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="e.g. R-Series 500" type="text">
+</label>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Manufacturing Year</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="2024" type="number">
+</label>
+</div>
+</div>
+<!-- Divider -->
+<hr class="border-outline-variant">
+<!-- Specifications Group -->
+<div class="space-y-md">
+<div class="grid grid-cols-2 gap-md">
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Vehicle Type</span>
+<select class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface bg-surface-container-lowest">
+<option>Select type...</option>
+<option>Heavy Duty Truck</option>
+<option>Medium Duty Truck</option>
+<option>Van</option>
+<option>Delivery Scooter</option>
+</select>
+</label>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Fuel Type</span>
+<select class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface bg-surface-container-lowest">
+<option>Select fuel...</option>
+<option>Diesel</option>
+<option>Electric</option>
+<option>Gasoline</option>
+<option>Hydrogen</option>
+</select>
+</label>
+</div>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Maximum Load Capacity</span>
+<div class="flex gap-2">
+<input class="flex-1 border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="0.00" type="number">
+<select class="w-24 border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface bg-surface-container-lowest font-label-md">
+<option>kg</option>
+<option>Ton</option>
+</select>
+</div>
+</label>
+<div class="grid grid-cols-2 gap-md">
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Initial Odometer (km)</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="0" type="number">
+</label>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Vehicle Color</span>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-outline">palette</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="e.g. Fleet Blue" type="text">
+</div>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<hr class="border-outline-variant">
+<!-- Registration Group -->
+<div class="space-y-md">
+<div class="grid grid-cols-2 gap-md">
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Registration Date</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" type="date">
+</label>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Insurance Expiry</span>
+<input class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" type="date">
+</label>
+</div>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Current Status</span>
+<div class="flex gap-4 p-md bg-surface-container-low rounded-xl border border-outline-variant/30">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary h-5 w-5" name="status" type="radio" value="available">
+<span class="font-label-md text-on-surface">Available</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary h-5 w-5" name="status" type="radio" value="idle">
+<span class="font-label-md text-on-surface">Idle</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary h-5 w-5" name="status" type="radio" value="maintenance">
+<span class="font-label-md text-on-surface">Maintenance</span>
+</label>
+</div>
+</label>
+<label class="block">
+<span class="block font-label-md text-on-surface-variant mb-1.5 ml-1">Internal Notes</span>
+<textarea class="w-full border-outline-variant border rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface" placeholder="Add any specific requirements or history details for this vehicle..." rows="4"></textarea>
+</label>
+</div>
+</form>
+</div>
+<!-- Sticky Bottom Actions -->
+<div class="p-lg border-t border-outline-variant bg-surface-container-lowest flex items-center justify-end gap-md shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.05)]">
+<button class="px-8 py-3 border border-outline text-on-surface rounded-xl font-label-md hover:bg-surface-container-low transition-all" id="cancel-btn">Cancel</button>
+<button class="px-10 py-3 bg-primary text-on-primary rounded-xl font-label-md font-bold hover:bg-primary-container hover:shadow-lg transition-all active:scale-[0.98]" id="save-btn">Save Vehicle</button>
+</div>
+</div>
+</div>
+<!-- Success Toast Notification -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] transform translate-y-24 opacity-0 transition-all duration-500 ease-out" id="toast">
+<div class="bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-outline/30">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+<div class="pr-4">
+<p class="font-label-md font-bold">Registration Successful</p>
+<p class="text-label-sm opacity-80">Vehicle successfully added to FleetFlow.</p>
+</div>
+<button class="text-inverse-on-surface/50 hover:text-white" id="close-toast">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<script>
+        const overlay = document.getElementById('drawer-overlay');
+        const panel = document.getElementById('drawer-panel');
+        const trigger = document.getElementById('trigger-drawer');
+        const closeBtn = document.getElementById('close-drawer');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const toast = document.getElementById('toast');
+        const closeToast = document.getElementById('close-toast');
+
+        function openDrawer() {
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                panel.classList.remove('slide-over-enter');
+                panel.classList.add('slide-over-active');
+            }, 10);
+        }
+
+        function closeDrawer() {
+            overlay.classList.remove('opacity-100');
+            panel.classList.remove('slide-over-active');
+            panel.classList.add('slide-over-enter');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 350);
+        }
+
+        function showToast() {
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                hideToast();
+            }, 5000);
+        }
+
+        function hideToast() {
+            toast.classList.add('translate-y-24', 'opacity-0');
+            toast.classList.remove('translate-y-0', 'opacity-100');
+        }
+
+        trigger.addEventListener('click', openDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+        cancelBtn.addEventListener('click', closeDrawer);
+        
+        saveBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Simulate processing
+            saveBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Processing...';
+            saveBtn.disabled = true;
+            
+            setTimeout(() => {
+                closeDrawer();
+                showToast();
+                // Reset button
+                saveBtn.innerHTML = 'Save Vehicle';
+                saveBtn.disabled = false;
+            }, 1200);
+        });
+
+        closeToast.addEventListener('click', hideToast);
+
+        // Click outside to close
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeDrawer();
+        });
+
+        // Initialize state
+        window.addEventListener('DOMContentLoaded', () => {
+            // Auto-open for demo purposes
+            setTimeout(openDrawer, 800);
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

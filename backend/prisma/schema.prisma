@@ -1,0 +1,406 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique @db.VarChar(50)
+  description String?  @db.Text
+  permissions Json?    @default("{}")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  users User[]
+
+  @@map("role")
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  roleId       String    @map("role_id") @db.Uuid
+  fullName     String    @map("full_name") @db.VarChar(150)
+  email        String    @unique @db.VarChar(255)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  phone        String?   @db.VarChar(20)
+  avatarUrl    String?   @map("avatar_url") @db.VarChar(500)
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz(6)
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz(6)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  refreshTokens RefreshToken[]
+  notifications Notification[]
+  auditLogs     AuditLog[]
+
+  @@index([roleId])
+  @@index([deletedAt], map: "user_active_deleted_at_idx")
+  @@map("user")
+}
+
+model RefreshToken {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  tokenHash   String    @unique @map("token_hash") @db.VarChar(255)
+  expiresAt   DateTime  @map("expires_at") @db.Timestamptz(6)
+  revokedAt   DateTime? @map("revoked_at") @db.Timestamptz(6)
+  createdByIp String?   @map("created_by_ip") @db.VarChar(45)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("refresh_token")
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  ON_TRIP
+  IN_MAINTENANCE
+  OUT_OF_SERVICE
+}
+
+model Vehicle {
+  id String @id @default(uuid()) @db.Uuid
+
+  registrationNo String  @unique @map("registration_no") @db.VarChar(30)
+  vin            String? @unique @db.VarChar(100)
+
+  make  String @db.VarChar(80)
+  model String @db.VarChar(80)
+  year  Int
+
+  vehicleType String @map("vehicle_type") @db.VarChar(50)
+
+  capacityKg Float @map("capacity_kg")
+
+  fuelType String @map("fuel_type") @db.VarChar(30)
+
+  status VehicleStatus @default(AVAILABLE)
+
+  purchaseDate DateTime? @map("purchase_date") @db.Date
+
+  acquisitionCost Decimal? @map("acquisition_cost") @db.Decimal(12, 2)
+
+  currentOdometer Float? @map("current_odometer")
+
+  notes String? @db.Text
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  trips           Trip[]
+  maintenanceLogs Maintenance[]
+  fuelLogs        FuelLog[]
+  documents       Document[]
+
+  @@index([status])
+  @@index([deletedAt])
+  @@map("vehicles")
+}
+
+enum DriverStatus {
+  AVAILABLE
+  ON_TRIP
+  ON_LEAVE
+  SUSPENDED
+}
+
+model Driver {
+  id String @id @default(uuid()) @db.Uuid
+
+  fullName     String @map("full_name") @db.VarChar(150)
+  employeeCode String @unique @map("employee_code") @db.VarChar(30)
+
+  email String? @unique @db.VarChar(255)
+  phone String  @db.VarChar(20)
+
+  licenseNumber String   @unique @map("license_number") @db.VarChar(100)
+  licenseExpiry DateTime @map("license_expiry") @db.Date
+
+  experienceYears Int @default(0) @map("experience_years")
+
+  status DriverStatus @default(AVAILABLE)
+
+  joiningDate DateTime? @map("joining_date") @db.Date
+
+  address String? @db.Text
+
+  emergencyContact String? @map("emergency_contact") @db.VarChar(20)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  trips     Trip[]
+  documents Document[]
+
+  @@index([status])
+  @@index([deletedAt])
+  @@map("driver")
+}
+
+enum TripStatus {
+  PLANNED
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Trip {
+  id String @id @default(uuid()) @db.Uuid
+
+  tripNumber String @unique @map("trip_number") @db.VarChar(50)
+
+  vehicleId String @map("vehicle_id") @db.Uuid
+  driverId  String @map("driver_id") @db.Uuid
+
+  source      String @db.VarChar(150)
+  destination String @db.VarChar(150)
+
+  cargoDescription String? @map("cargo_description") @db.Text
+  cargoWeightkg    Float   @map("cargo_weight_kg")
+
+  distanceKm Float @map("distance_km")
+
+  scheduledStart DateTime  @map("scheduled_start")
+  scheduledEnd   DateTime? @map("scheduled_end")
+
+  actualStart DateTime? @map("actual_start")
+  actualEnd   DateTime? @map("actual_end")
+
+  status TripStatus @default(PLANNED)
+
+  remarks String? @db.Text
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Restrict)
+  driver  Driver  @relation(fields: [driverId], references: [id], onDelete: Restrict)
+
+  maintenanceLogs Maintenance[]
+  fuelLogs        FuelLog[]
+  expenses        Expense[]
+
+  @@index([vehicleId])
+  @@index([driverId])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("trip")
+}
+
+enum MaintenanceStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Maintenance {
+  id String @id @default(uuid()) @db.Uuid
+
+  vehicleId String  @map("vehicle_id") @db.Uuid
+  tripId    String? @map("trip_id") @db.Uuid
+
+  title       String  @db.VarChar(150)
+  description String? @db.Text
+
+  serviceDate DateTime @map("service_date") @db.Date
+
+  nextServiceDate DateTime? @map("next_service_date") @db.Date
+
+  odometerKm Float? @map("odometer_km")
+
+  cost Decimal @db.Decimal(12, 2)
+
+  vendor String? @db.VarChar(150)
+
+  status MaintenanceStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  trip    Trip?   @relation(fields: [tripId], references: [id])
+
+  @@index([vehicleId])
+  @@index([tripId])
+  @@index([status])
+  @@map("maintenance")
+}
+
+model FuelLog {
+  id String @id @default(uuid()) @db.Uuid
+
+  vehicleId String  @db.Uuid
+  tripId    String? @db.Uuid
+
+  fuelDate DateTime @db.Date
+
+  quantity Float
+
+  pricePerLiter Decimal @db.Decimal(10, 2)
+
+  totalAmount Decimal @db.Decimal(12, 2)
+
+  odometerKm Float
+
+  stationName String? @db.VarChar(150)
+
+  createdAt DateTime @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  trip    Trip?   @relation(fields: [tripId], references: [id])
+
+  @@index([vehicleId])
+  @@index([tripId])
+  @@map("fuel_log")
+}
+
+enum ExpenseType {
+  TOLL
+  FOOD
+  PARKING
+  REPAIR
+  OTHER
+}
+
+model Expense {
+  id String @id @default(uuid()) @db.Uuid
+
+  tripId String @db.Uuid
+
+  expenseType ExpenseType
+
+  amount Decimal @db.Decimal(12, 2)
+
+  description String? @db.Text
+
+  expenseDate DateTime @db.Date
+
+  createdAt DateTime @default(now())
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId])
+  @@map("expense")
+}
+
+enum DocumentType {
+  RC
+  INSURANCE
+  PUC
+  LICENSE
+  INVOICE
+  DELIVERY_CHALLAN
+  OTHER
+}
+
+model Document {
+  id String @id @default(uuid()) @db.Uuid
+
+  vehicleId String? @db.Uuid
+  driverId  String? @db.Uuid
+
+  documentType DocumentType
+
+  title String @db.VarChar(150)
+
+  fileUrl String @map("file_url")
+
+  expiryDate DateTime? @db.Date
+
+  uploadedAt DateTime @default(now())
+
+  vehicle Vehicle? @relation(fields: [vehicleId], references: [id])
+  driver  Driver?  @relation(fields: [driverId], references: [id])
+
+  @@index([vehicleId])
+  @@index([driverId])
+  @@map("document")
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  SUCCESS
+  ERROR
+}
+
+model Notification {
+  id        String           @id @default(uuid()) @db.Uuid
+  userId    String           @db.Uuid
+  title     String           @db.VarChar(150)
+  message   String           @db.Text
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notification")
+}
+
+model AuditLog {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String? @db.Uuid
+
+  action String @db.VarChar(150)
+
+  entityType String @db.VarChar(100)
+
+  entityId String?
+
+  oldData Json?
+
+  newData Json?
+
+  ipAddress String? @db.VarChar(45)
+
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("audit_log")
+}
+
+model MonthlyReport {
+  id String @id @default(uuid()) @db.Uuid
+
+  month Int
+
+  year Int
+
+  totalTrips Int @default(0)
+
+  totalDistance Float @default(0)
+
+  totalFuelCost Decimal @default(0) @db.Decimal(12, 2)
+
+  totalExpense Decimal @default(0) @db.Decimal(12, 2)
+
+  generatedAt DateTime @default(now())
+
+  @@unique([month, year])
+  @@map("monthly_report")
+}

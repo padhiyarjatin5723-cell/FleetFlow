@@ -1,0 +1,78 @@
+import maintenanceService from "./maintenance.service.js";
+import ApiResponse from "../../utils/ApiResponse.js";
+import asyncHandler from "../../utils/asyncHandler.js";
+import {
+  createMaintenanceSchema,
+  updateMaintenanceSchema,
+} from "./maintenance.validator.js";
+
+export const createMaintenance = asyncHandler(async (req, res) => {
+  const data = createMaintenanceSchema.parse(req.body);
+
+  const maintenance = await maintenanceService.createMaintenance(data);
+
+  return res.status(201).json(
+    new ApiResponse(
+      201,
+      "Maintenance created successfully",
+      maintenance
+    )
+  );
+});
+
+export const getAllMaintenances = asyncHandler(async (req, res) => {
+  const maintenances = await maintenanceService.getAllMaintenances();
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Maintenances fetched successfully",
+      maintenances
+    )
+  );
+});
+
+export const getMaintenanceById = asyncHandler(async (req, res) => {
+  const maintenance = await maintenanceService.getMaintenanceById(
+    req.params.id
+  );
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Maintenance fetched successfully",
+      maintenance
+    )
+  );
+});
+
+export const updateMaintenance = asyncHandler(async (req, res) => {
+  const data = updateMaintenanceSchema.parse(req.body);
+
+  const maintenance = await maintenanceService.updateMaintenance(
+    req.params.id,
+    data
+  );
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Maintenance updated successfully",
+      maintenance
+    )
+  );
+});
+
+export const deleteMaintenance = asyncHandler(async (req, res) => {
+  const result = await maintenanceService.deleteMaintenance(
+    req.params.id
+  );
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      result.message,
+      null
+    )
+  );
+});

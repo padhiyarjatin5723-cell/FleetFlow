@@ -1,0 +1,554 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Vehicle Registry | FleetFlow Enterprise</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#2563eb",
+                        "tertiary-container": "#585be6",
+                        "outline": "#737686",
+                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "on-tertiary-container": "#f1eeff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#dce2f3",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-bright": "#f9f9ff",
+                        "surface-dim": "#d3daea",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e7eefe",
+                        "secondary-container": "#6cf8bb",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#3e3fcc",
+                        "on-primary-container": "#eeefff",
+                        "surface": "#f9f9ff",
+                        "tertiary-fixed": "#e1e0ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "inverse-on-surface": "#ebf1ff",
+                        "background": "#f9f9ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-container-high": "#e2e8f8",
+                        "surface-container-highest": "#dce2f3",
+                        "on-background": "#151c27",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#004ac6",
+                        "on-primary-fixed": "#00174b",
+                        "primary-fixed": "#dbe1ff",
+                        "on-surface-variant": "#434655",
+                        "secondary": "#006c49",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed": "#002113",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary-fixed": "#07006c",
+                        "on-surface": "#151c27",
+                        "surface-tint": "#0053db",
+                        "surface-container-low": "#f0f3ff",
+                        "inverse-primary": "#b4c5ff",
+                        "inverse-surface": "#2a313d",
+                        "secondary-fixed-dim": "#4edea3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "container-max": "1440px",
+                        "2xl": "48px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .glass-header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dce2f3; border-radius: 10px; }
+        .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Side Navigation Shell -->
+<aside class="h-screen w-72 flex-col fixed left-0 top-0 dark:bg-inverse-surface border-r border-outline-variant dark:border-outline shadow-sm z-50 hidden md:flex bg-inverse-surface"><div class="flex flex-col h-full py-6 px-4 gap-2 bg-inverse-surface text-white">
+<div class="flex items-center gap-3 px-4 mb-8">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-white leading-none">FleetFlow</h1>
+<p class="text-xs text-surface-variant font-medium tracking-wider uppercase opacity-70">Enterprise Logistics</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Vehicle Registry (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+<span class="font-body-md text-body-md">Vehicle Registry</span>
+</a>
+<!-- Other Items -->
+
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-body-md text-body-md">Trip Dispatcher</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-body-md text-body-md">Maintenance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Fuel &amp; Expenses</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<div class="pt-4 mt-4 border-t border-white/10">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-surface-variant hover:text-white hover:bg-white/10 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</nav>
+</div></aside>
+<!-- Main Content Area -->
+<main class="md:ml-72 min-h-screen">
+<!-- Top Navigation -->
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-18rem)] h-16 bg-surface/95 dark:bg-inverse-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-sm flex items-center px-8 z-40 justify-end">
+
+<div class="flex items-center gap-2">
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button><button class="hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined text-primary">mail</span>
+</button>
+
+
+<button class="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Small profile avatar for top navigation menu, circular professional portrait of an executive, clean corporate styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmwzad9oZmFze8E7Fav1GfmwG3e8TNIcMAHKo6Ih4il_RGZTTogJejIiqRbzSsSEVvAboG7jW6ggDojepYVw-kj2sClxheT6dKN2FY6GfJ-JLe0JHvLFpCyB8bUL6NXRr6v06aYoOSJlI1N6eqtkoSpNLyxVcydR8VRiIuiHyVWxQ0yXSv6EA1D3TqwTynyeH1RnFaSapznDw65AlyGKvgA8J-F4blA4tNgDpJ6gQcoyrYpXW9R-P5RFsPNJ6ITv8zSruBE8-44XFI">
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="pt-24 pb-12 px-8 max-w-[1440px] mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+<div class="space-y-1">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Vehicle Registry</h2>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-2xl">Manage all fleet vehicles, monitor availability, update asset information, and maintain complete vehicle records.</p>
+</div>
+<button class="flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold transition-all hover:bg-primary/90 active:scale-95 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">add</span>
+<span class="">New Vehicle</span>
+</button>
+</div>
+<!-- Summary Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<!-- Total Vehicles -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant card-lift">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">directions_car</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-bold text-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="">+4.2%</span>
+</div>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Total Vehicles</p>
+<h3 class="text-3xl font-bold mt-1">142</h3>
+</div>
+</div>
+<!-- Available -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant card-lift">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">task_alt</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-bold text-sm">
+<span class="material-symbols-outlined text-sm">check</span>
+<span class="">Optimal</span>
+</div>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Available Vehicles</p>
+<h3 class="text-3xl font-bold mt-1">86</h3>
+</div>
+</div>
+<!-- On Trip -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant card-lift">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-tertiary/10 text-tertiary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">local_shipping</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-bold text-sm">
+<span class="">29.5% Utilization</span>
+</div>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Vehicles On Trip</p>
+<h3 class="text-3xl font-bold mt-1">42</h3>
+</div>
+</div>
+<!-- Under Maintenance -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant card-lift">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-error/10 text-error rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">handyman</span>
+</div>
+<div class="flex items-center gap-1 text-error font-bold text-sm">
+<span class="material-symbols-outlined text-sm">priority_high</span>
+<span class="">Critical</span>
+</div>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Under Maintenance</p>
+<h3 class="text-3xl font-bold mt-1">11</h3>
+</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-4 mb-6 flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[200px] relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="Search Vehicle or License Plate..." type="text">
+</div>
+<div class="flex items-center gap-3">
+<select class="bg-surface border border-outline-variant rounded-xl py-2 px-4 text-sm focus:border-primary focus:ring-primary outline-none min-w-[140px]">
+<option>Vehicle Type</option>
+<option>Heavy Truck</option>
+<option>Delivery Van</option>
+<option>Cargo Sprinter</option>
+</select>
+<select class="bg-surface border border-outline-variant rounded-xl py-2 px-4 text-sm focus:border-primary focus:ring-primary outline-none min-w-[140px]">
+<option>Status</option>
+<option>Available</option>
+<option>On Trip</option>
+<option>Maintenance</option>
+<option>Out of Service</option>
+</select>
+<select class="bg-surface border border-outline-variant rounded-xl py-2 px-4 text-sm focus:border-primary focus:ring-primary outline-none min-w-[140px]">
+<option>Capacity</option>
+<option>5-10 Tons</option>
+<option>10-20 Tons</option>
+<option>20+ Tons</option>
+</select>
+<button class="p-2 border border-outline-variant rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+</div>
+<!-- Fleet Vehicles Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant">
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Vehicle ID</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">License Plate</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Vehicle Name</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Manufacturer/Model</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Type</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Capacity</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Odometer</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant">Status</th>
+<th class="py-4 px-6 font-bold text-sm text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1: Available -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6 font-medium text-primary">#VH-8821</td>
+<td class="py-4 px-6 font-bold text-sm">ABC-1234</td>
+<td class="py-4 px-6">Northern Star</td>
+<td class="py-4 px-6 text-sm">Volvo FH16</td>
+<td class="py-4 px-6 text-sm">Heavy Truck</td>
+<td class="py-4 px-6 text-sm">44 Tons</td>
+<td class="py-4 px-6 text-sm">124,500 km</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-2"></span>
+                                        Available
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors" onclick="openDrawer('VH-8821')" title="View">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors" title="History">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: On Trip -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6 font-medium text-primary">#VH-9022</td>
+<td class="py-4 px-6 font-bold text-sm">XYZ-5678</td>
+<td class="py-4 px-6">Desert Runner</td>
+<td class="py-4 px-6 text-sm">Mercedes Actros</td>
+<td class="py-4 px-6 text-sm">Heavy Truck</td>
+<td class="py-4 px-6 text-sm">40 Tons</td>
+<td class="py-4 px-6 text-sm">82,300 km</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-2"></span>
+                                        On Trip
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">history</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Maintenance -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6 font-medium text-primary">#VH-7741</td>
+<td class="py-4 px-6 font-bold text-sm">LMN-9922</td>
+<td class="py-4 px-6">Silver Courier</td>
+<td class="py-4 px-6 text-sm">Ford Transit</td>
+<td class="py-4 px-6 text-sm">Delivery Van</td>
+<td class="py-4 px-6 text-sm">3.5 Tons</td>
+<td class="py-4 px-6 text-sm">45,100 km</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-2"></span>
+                                        Maintenance
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">history</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Out of Service -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6 font-medium text-primary">#VH-2210</td>
+<td class="py-4 px-6 font-bold text-sm">KRT-1144</td>
+<td class="py-4 px-6">Iron Horse</td>
+<td class="py-4 px-6 text-sm">Scania R500</td>
+<td class="py-4 px-6 text-sm">Heavy Truck</td>
+<td class="py-4 px-6 text-sm">44 Tons</td>
+<td class="py-4 px-6 text-sm">298,400 km</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-error/10 text-error text-xs font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-error mr-2"></span>
+                                        Out of Service
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary"><span class="material-symbols-outlined text-[20px]">history</span></button>
+</div>
+</td>
+</tr>
+<!-- More rows could be added here -->
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-surface-container-lowest border-t border-outline-variant px-6 py-4 flex items-center justify-between">
+<p class="text-on-surface-variant text-sm">Showing 1 to 10 of 142 vehicles</p>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-white font-bold text-sm">1</button>
+<button class="w-10 h-10 rounded-lg hover:bg-surface-container font-medium text-sm transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg hover:bg-surface-container font-medium text-sm transition-colors">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 rounded-lg hover:bg-surface-container font-medium text-sm transition-colors">15</button>
+<button class="p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Over Drawer (Hidden by default) -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="fixed top-0 right-0 h-full w-full max-w-lg bg-surface shadow-2xl z-[70] translate-x-full drawer-transition flex flex-col" id="vehicle-drawer">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">info</span>
+</div>
+<h3 class="font-bold text-xl" id="drawer-title">Vehicle Details</h3>
+</div>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-colors" onclick="closeDrawer()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+<div class="aspect-video w-full rounded-2xl overflow-hidden mb-8 shadow-inner">
+<img class="w-full h-full object-cover" data-alt="High-resolution, minimalist professional photograph of a modern Volvo heavy truck, cinematic side view, soft industrial lighting, studio background, premium automotive photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfZkHym0Ukvq-mYcfzjq3gaE0yguT_REeaG39GAmGCp3YiHo-BgmdhthZmHRckiU0Tev2LP8x7L0NAqeVv4gJ4UxoZyO-S_HL-b5Hu4g8SlJAUO7LBTgRDcOghkY0nhq4q-wqZd4idX63bUH6V292rK732K4wBaNBQ7M2tg5lIcJIpORjWnAJgX5dBa5o4a-EYBMA-EcyZBVmSksPK5Uno_jbFHU12iqPaRSrIcGWgI6IrVYETkMFc4bvVW-oFPLodqXJZhmVKAxtV">
+</div>
+<div class="grid grid-cols-2 gap-8 mb-8">
+<div>
+<label class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Manufacturer</label>
+<p class="text-lg font-semibold mt-1">Volvo</p>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Model</label>
+<p class="text-lg font-semibold mt-1">FH16 Global</p>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Production Year</label>
+<p class="text-lg font-semibold mt-1">2022</p>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Fuel Type</label>
+<p class="text-lg font-semibold mt-1">Diesel / Hybrid</p>
+</div>
+</div>
+<div class="space-y-6">
+<h4 class="font-bold text-lg pb-2 border-b border-outline-variant">Asset Health</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Engine Condition</span>
+<span class="font-bold text-secondary">Excellent</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 94%"></div>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-on-surface-variant">Tire Life</span>
+<span class="font-bold text-tertiary">72%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 72%"></div>
+</div>
+</div>
+</div>
+<div class="mt-12 p-6 bg-surface-container-low rounded-2xl border border-outline-variant">
+<h4 class="font-bold mb-4">Upcoming Service</h4>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-error/10 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">event_upcoming</span>
+</div>
+<div>
+<p class="font-bold">Scheduled Maintenance</p>
+<p class="text-sm text-on-surface-variant mt-1">Next service due in 1,240 km or Oct 15, 2023.</p>
+<button class="mt-3 text-primary font-bold text-sm hover:underline">Schedule Now</button>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-outline-variant flex gap-4 bg-surface">
+<button class="flex-1 py-3 px-6 rounded-xl border border-outline-variant font-bold hover:bg-surface-container transition-colors">Edit Asset</button>
+<button class="flex-1 py-3 px-6 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-all">Assign Driver</button>
+</div>
+</div>
+<script>
+        function openDrawer(id) {
+            const drawer = document.getElementById('vehicle-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            const title = document.getElementById('drawer-title');
+            
+            title.textContent = `Vehicle Details: ${id}`;
+            drawer.classList.remove('translate-x-full');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('vehicle-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            
+            drawer.classList.add('translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Search bar micro-interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('max-w-xl');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('max-w-xl');
+        });
+    </script>
+
+
+
+
+
+
+
+
+</body></html>

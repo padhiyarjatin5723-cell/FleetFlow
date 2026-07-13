@@ -1,0 +1,817 @@
+# Software Requirements Specification (SRS)
+
+## FleetFlow – Modular Fleet & Logistics Management System
+
+Version: 1.0
+
+Prepared By:
+
+Project Team
+
+Date:
+
+June 2026
+
+---
+
+# 1. Introduction
+
+## 1.1 Purpose
+
+FleetFlow is a web-based Fleet & Logistics Management System developed to replace traditional manual fleet management with a centralized digital platform.
+
+The system helps organizations efficiently manage:
+
+- Vehicles
+- Drivers
+- Trips
+- Maintenance
+- Fuel Expenses
+- Financial Reports
+- Fleet Analytics
+
+The application improves operational efficiency, reduces manual work, prevents scheduling conflicts, and provides real-time visibility into fleet operations.
+
+---
+
+## 1.2 Scope
+
+FleetFlow enables logistics companies to manage the complete lifecycle of fleet operations.
+
+The system provides:
+
+- Secure authentication
+- Vehicle management
+- Driver management
+- Trip planning
+- Maintenance tracking
+- Fuel expense tracking
+- Analytics dashboard
+- Financial reporting
+
+---
+
+## 1.3 Objectives
+
+The project aims to:
+
+- Digitize fleet management
+- Reduce operational errors
+- Improve driver safety
+- Prevent overloading
+- Reduce maintenance costs
+- Improve fleet utilization
+- Generate business reports
+- Support data-driven decisions
+
+---
+
+# 2. Overall Description
+
+## 2.1 Product Perspective
+
+FleetFlow is a modular web application consisting of multiple interconnected modules.
+
+```
+Authentication
+
+↓
+
+Dashboard
+
+↓
+
+Vehicle Management
+
+↓
+
+Driver Management
+
+↓
+
+Trip Management
+
+↓
+
+Maintenance
+
+↓
+
+Expenses
+
+↓
+
+Analytics
+```
+
+Each module shares information with the others through a centralized PostgreSQL database.
+
+---
+
+## 2.2 Target Users
+
+### Fleet Manager
+
+Responsibilities
+
+- Manage vehicles
+- Schedule maintenance
+- Monitor fleet
+- View analytics
+
+---
+
+### Dispatcher
+
+Responsibilities
+
+- Create trips
+- Assign drivers
+- Assign vehicles
+- Track deliveries
+
+---
+
+### Safety Officer
+
+Responsibilities
+
+- Verify licenses
+- Monitor driver safety
+- Suspend unsafe drivers
+
+---
+
+### Financial Analyst
+
+Responsibilities
+
+- Monitor expenses
+- Fuel reports
+- ROI calculation
+- Financial reports
+
+---
+
+# 3. Functional Requirements
+
+## Module 1 – Authentication
+
+Features
+
+- Login
+- Logout
+- Forgot Password
+- Change Password
+- JWT Authentication
+- Role-Based Access Control (RBAC)
+
+---
+
+## Module 2 – Dashboard
+
+Dashboard should display
+
+- Active Fleet
+- Vehicles Available
+- Vehicles in Maintenance
+- Total Drivers
+- Trips Today
+- Pending Trips
+- Fleet Utilization
+- Monthly Expenses
+- Fuel Consumption
+- Quick Charts
+
+---
+
+## Module 3 – Vehicle Management
+
+Functions
+
+- Add Vehicle
+- Edit Vehicle
+- Delete Vehicle
+- Search Vehicle
+- Filter Vehicle
+- Retire Vehicle
+
+Vehicle Information
+
+- Vehicle Number
+- Model
+- Type
+- Capacity
+- Registration Number
+- Purchase Date
+- Current Odometer
+- Status
+
+---
+
+## Module 4 – Driver Management
+
+Functions
+
+- Add Driver
+- Edit Driver
+- Delete Driver
+- Upload License
+- View Trip History
+
+Driver Information
+
+- Name
+- Contact
+- License Number
+- License Expiry
+- Vehicle Category
+- Experience
+- Safety Score
+- Current Status
+
+---
+
+## Module 5 – Trip Management
+
+Functions
+
+- Create Trip
+- Assign Vehicle
+- Assign Driver
+- Update Trip Status
+- Complete Trip
+- Cancel Trip
+
+Trip Information
+
+- Source
+- Destination
+- Distance
+- Cargo Weight
+- Vehicle
+- Driver
+- Departure
+- Arrival
+- Status
+
+Validation Rules
+
+- Vehicle must be available
+- Driver must be available
+- License must be valid
+- Cargo weight ≤ Vehicle Capacity
+
+---
+
+## Module 6 – Maintenance Management
+
+Functions
+
+- Create Service Record
+- Update Service
+- View History
+- Mark Completed
+
+Maintenance Types
+
+- Oil Change
+- Engine Repair
+- Tire Replacement
+- Brake Service
+- General Service
+
+Business Logic
+
+When maintenance starts
+
+Vehicle Status
+
+↓
+
+"In Shop"
+
+↓
+
+Cannot be assigned
+
+---
+
+## Module 7 – Fuel & Expense Management
+
+Functions
+
+- Add Fuel Log
+- Add Expenses
+- View Monthly Expenses
+- Cost Analysis
+
+Expense Types
+
+- Fuel
+- Maintenance
+- Toll
+- Insurance
+- Other
+
+Automatic Calculation
+
+```
+Total Cost
+
+=
+
+Fuel
+
++
+
+Maintenance
+
++
+
+Other Expenses
+```
+
+---
+
+## Module 8 – Reports & Analytics
+
+Reports
+
+- Monthly Report
+- Vehicle Report
+- Driver Report
+- Expense Report
+- Maintenance Report
+
+Analytics
+
+- Cost per KM
+- Fuel Efficiency
+- Vehicle Utilization
+- Driver Performance
+- ROI
+
+Export
+
+- PDF
+- CSV
+
+# 4. Non-Functional Requirements
+
+## Performance
+
+- Response time < 2 seconds
+- Support 500+ vehicles
+- Handle concurrent users
+
+---
+
+## Security
+
+- JWT Authentication
+- Password Hashing
+- Role-Based Access
+- Input Validation
+- SQL Injection Protection
+- XSS Protection
+
+---
+
+## Reliability
+
+- Automatic Database Backup
+- Error Logging
+- API Validation
+
+---
+
+## Scalability
+
+Future additions
+
+- GPS Tracking
+- Live Maps
+- Mobile Application
+- AI Route Optimization
+
+---
+
+## Availability
+
+- 99% uptime
+- Cloud deployment
+
+---
+
+# 5. User Roles & Permissions
+
+| Module | Manager | Dispatcher | Safety Officer | Financial Analyst |
+| --- | --- | --- | --- | --- |
+| Dashboard | ✅ | ✅ | ✅ | ✅ |
+| Vehicles | Full | View | View | View |
+| Drivers | Full | View | Full | View |
+| Trips | View | Full | View | View |
+| Maintenance | Full | View | View | View |
+| Expenses | View | View | View | Full |
+| Reports | Full | Limited | Limited | Full |
+
+---
+
+# 6. Use Cases
+
+### UC-01
+
+User Login
+
+Actor
+
+User
+
+Flow
+
+Login
+
+↓
+
+Dashboard
+
+---
+
+### UC-02
+
+Add Vehicle
+
+Manager
+
+↓
+
+Vehicle Created
+
+↓
+
+Available
+
+---
+
+### UC-03
+
+Assign Driver
+
+Dispatcher
+
+↓
+
+Driver Available?
+
+↓
+
+License Valid?
+
+↓
+
+Assign
+
+---
+
+### UC-04
+
+Create Trip
+
+Dispatcher
+
+↓
+
+Vehicle Available?
+
+↓
+
+Capacity Check
+
+↓
+
+Trip Created
+
+---
+
+### UC-05
+
+Complete Trip
+
+Driver Returns
+
+↓
+
+Update Odometer
+
+↓
+
+Fuel Entry
+
+↓
+
+Vehicle Available
+
+---
+
+### UC-06
+
+Maintenance
+
+Manager
+
+↓
+
+Create Service
+
+↓
+
+Vehicle In Shop
+
+↓
+
+Unavailable
+
+---
+
+# 7. Business Rules
+
+### Rule 1
+
+License must not be expired.
+
+---
+
+### Rule 2
+
+Driver status must be Available.
+
+---
+
+### Rule 3
+
+Vehicle status must be Available.
+
+---
+
+### Rule 4
+
+Cargo Weight ≤ Vehicle Capacity.
+
+---
+
+### Rule 5
+
+Vehicle under maintenance cannot be assigned.
+
+---
+
+### Rule 6
+
+Trip lifecycle
+
+```
+Draft
+
+↓
+
+Dispatched
+
+↓
+
+Completed
+
+↓
+
+Archived
+```
+
+or
+
+```
+Draft
+
+↓
+
+Cancelled
+```
+
+---
+
+### Rule 7
+
+Vehicle utilization should be calculated automatically.
+
+---
+
+### Rule 8
+
+Fuel efficiency should be calculated after every completed trip.
+
+---
+
+# 8. System Workflow
+
+```
+Login
+
+↓
+
+Dashboard
+
+↓
+
+Vehicle Registration
+
+↓
+
+Driver Registration
+
+↓
+
+Trip Creation
+
+↓
+
+Assign Vehicle
+
+↓
+
+Assign Driver
+
+↓
+
+Capacity Validation
+
+↓
+
+Trip Starts
+
+↓
+
+Trip Completed
+
+↓
+
+Fuel Log
+
+↓
+
+Maintenance
+
+↓
+
+Analytics Updated
+
+↓
+
+Reports Generated
+```
+
+# 9. System Architecture
+
+```
+                User
+
+                  │
+
+                  ▼
+
+      React + Tailwind Frontend
+
+                  │
+
+          REST API (HTTPS)
+
+                  │
+
+         Node.js + Express Backend
+
+                  │
+
+       Prisma ORM (Data Access Layer)
+
+                  │
+
+            PostgreSQL Database
+```
+
+---
+
+# 10. Database Planning (Entities)
+
+Main entities:
+
+- User
+- Role
+- Vehicle
+- Driver
+- Trip
+- Trip Assignment
+- Maintenance
+- Fuel Log
+- Expense
+- Report
+
+Key relationships:
+
+- One **Role** can belong to many **Users**.
+- One **Vehicle** can have many **Trips**, **Maintenance Records**, **Fuel Logs**, and **Expenses**.
+- One **Driver** can be assigned to many **Trips** over time.
+- Each **Trip** references one **Vehicle** and one **Driver**.
+- **Expenses** may optionally be linked to a specific **Trip** for detailed cost tracking.
+
+---
+
+# 11. API Planning
+
+### Authentication
+
+- POST `/api/auth/login`
+- POST `/api/auth/logout`
+- POST `/api/auth/forgot-password`
+
+### Vehicle
+
+- GET `/api/vehicles`
+- GET `/api/vehicles/:id`
+- POST `/api/vehicles`
+- PUT `/api/vehicles/:id`
+- DELETE `/api/vehicles/:id`
+
+### Driver
+
+- GET `/api/drivers`
+- POST `/api/drivers`
+- PUT `/api/drivers/:id`
+- DELETE `/api/drivers/:id`
+
+### Trip
+
+- GET `/api/trips`
+- POST `/api/trips`
+- PUT `/api/trips/:id`
+- PATCH `/api/trips/:id/status`
+
+### Maintenance
+
+- GET `/api/maintenance`
+- POST `/api/maintenance`
+- PUT `/api/maintenance/:id`
+
+### Expenses
+
+- GET `/api/expenses`
+- POST `/api/expenses`
+
+### Analytics
+
+- GET `/api/analytics/dashboard`
+- GET `/api/reports/monthly`
+
+---
+
+# 12. Project Folder Structure
+
+```
+fleetflow/
+│
+├── client/                 # React Frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── context/
+│   │   ├── routes/
+│   │   └── utils/
+│
+├── server/                 # Express Backend
+│   ├── controllers/
+│   ├── routes/
+│   ├── middleware/
+│   ├── services/
+│   ├── prisma/
+│   ├── validations/
+│   └── utils/
+│
+├── docs/
+├── postman/
+└── README.md
+```
+
+---
+
+# 13. Future Enhancements
+
+- Live GPS tracking
+- Google Maps integration
+- Driver mobile application
+- QR code vehicle identification
+- Predictive maintenance using AI
+- Route optimization
+- Email/SMS notifications
+- Real-time fleet alerts
+- Multi-company (multi-tenant) support
+- Inventory/spare parts management
