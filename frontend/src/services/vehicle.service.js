@@ -12,8 +12,11 @@ const updateVehicle = (id, data) =>
 const deleteVehicle = (id) =>
   axios.delete(`/vehicles/${id}`);
 
+const getAvailableVehicles = () => axios.get("/vehicles/available");
+
 export default {
   getVehicles,
+  getAvailableVehicles,
   getVehicle,
   createVehicle,
   updateVehicle,
