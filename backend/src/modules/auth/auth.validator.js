@@ -49,3 +49,29 @@ export const logoutAllSchema = z.object({
     .string()
     .uuid("Invalid User ID"),
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z
+    .string()
+    .email("Invalid email address")
+    .toLowerCase(),
+});
+
+export const resetPasswordSchema = z.object({
+  resetToken: z.string().min(1, "Reset token is required"),
+  newPassword: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(100),
+});
+
+export const changePasswordSchema = z.object({
+  currentPassword: z
+    .string()
+    .min(8, "Current password is required")
+    .max(100),
+  newPassword: z
+    .string()
+    .min(8, "New password must be at least 8 characters")
+    .max(100),
+});
