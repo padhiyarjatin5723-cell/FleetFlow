@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const emptyToNull = (value) => value === "" || value === undefined ? null : value;
+
 export const createVehicleSchema = z.object({
   registrationNo: z
     .string()
@@ -22,11 +24,11 @@ export const createVehicleSchema = z.object({
     .max(100),
 
   year: z
-    .number()
+    .coerce.number()
     .int(),
 
   capacityKg: z
-    .number()
+    .coerce.number()
     .positive(),
 
   fuelType: z.enum([
@@ -38,24 +40,23 @@ export const createVehicleSchema = z.object({
 
   purchaseDate: z.coerce.date(),
 
-  vin: z
-    .string()
-    .max(100)
-    .optional()
-    .nullable(),
+  vin: z.preprocess(
+    emptyToNull,
+    z.string().max(100).optional().nullable()
+  ),
 
   status: z
     .enum(["AVAILABLE", "ON_TRIP", "IN_MAINTENANCE", "OUT_OF_SERVICE"])
     .optional(),
 
   acquisitionCost: z
-    .number()
+    .coerce.number()
     .positive()
     .optional()
     .nullable(),
 
   currentOdometer: z
-    .number()
+    .coerce.number()
     .nonnegative()
     .optional()
     .nullable(),

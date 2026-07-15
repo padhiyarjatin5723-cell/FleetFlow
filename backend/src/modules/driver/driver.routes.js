@@ -15,19 +15,20 @@ import {
 } from "./driver.controller.js";
 
 const router = Router();
+const driverManagers = ["ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER"];
 
-router.post("/", authMiddleware, roleMiddleware("ADMIN"), createDriver);
+router.post("/", authMiddleware, roleMiddleware(...driverManagers), createDriver);
 
 router.get("/", authMiddleware, getAllDrivers);
 router.get("/available", authMiddleware, getAvailableDrivers);
 router.get("/:id/trips", authMiddleware, getDriverTrips);
 router.get("/:id", authMiddleware, getDriverById);
 
-router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), updateDriver);
+router.put("/:id", authMiddleware, roleMiddleware(...driverManagers), updateDriver);
 router.patch(
   "/:id/status",
   authMiddleware,
-  roleMiddleware("ADMIN"),
+  roleMiddleware(...driverManagers),
   updateDriverStatus
 );
 

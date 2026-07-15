@@ -15,19 +15,20 @@ import {
 } from "./vehicle.controller.js";
 
 const router = Router();
+const vehicleManagers = ["ADMIN", "FLEET_MANAGER"];
 
-router.post("/", authMiddleware, roleMiddleware("ADMIN"), createVehicle);
+router.post("/", authMiddleware, roleMiddleware(...vehicleManagers), createVehicle);
 
 router.get("/", authMiddleware, getAllVehicles);
 router.get("/available", authMiddleware, getAvailableVehicles);
 router.get("/:id/history", authMiddleware, getVehicleHistory);
 router.get("/:id", authMiddleware, getVehicleById);
 
-router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), updateVehicle);
+router.put("/:id", authMiddleware, roleMiddleware(...vehicleManagers), updateVehicle);
 router.patch(
   "/:id/status",
   authMiddleware,
-  roleMiddleware("ADMIN"),
+  roleMiddleware(...vehicleManagers),
   updateVehicleStatus
 );
 

@@ -10,13 +10,16 @@ import {
 } from "./document.validator.js";
 
 import authMiddleware from "../../middleware/auth.middleware.js";
+import roleMiddleware from "../../middleware/role.middleware.js";
 
 const router = Router();
+const documentManagers = ["ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER"];
 
 router.use(authMiddleware);
 
 router.post(
   "/",
+  roleMiddleware(...documentManagers),
   validate(createDocumentSchema),
   controller.createDocument
 );
@@ -32,6 +35,7 @@ router.get(
 router.put(
   "/:id",
   validate(idParamSchema),
+  roleMiddleware(...documentManagers),
   validate(updateDocumentSchema),
   controller.updateDocument
 );
@@ -39,6 +43,7 @@ router.put(
 router.delete(
   "/:id",
   validate(idParamSchema),
+  roleMiddleware(...documentManagers),
   controller.deleteDocument
 );
 

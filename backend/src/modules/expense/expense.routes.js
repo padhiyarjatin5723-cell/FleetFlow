@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth.middleware.js";
-import validate from "../../middleware/validate.middleware.js";
+import roleMiddleware from "../../middleware/role.middleware.js";
 
 import {
   createExpense,
@@ -10,23 +10,19 @@ import {
   deleteExpense,
 } from "./expense.controller.js";
 
-import {
-  createExpenseSchema,
-  updateExpenseSchema,
-} from "./expense.validator.js";
-
 const router = Router();
+const financeManagers = ["ADMIN", "FLEET_MANAGER", "FINANCIAL_ANALYST"];
 
 router.use(authMiddleware);
 
-router.post("/", validate(createExpenseSchema), createExpense);
+router.post("/", roleMiddleware(...financeManagers), createExpense);
 
 router.get("/", getAllExpenses);
 
 router.get("/:id", getExpenseById);
 
-router.put("/:id", validate(updateExpenseSchema), updateExpense);
+router.put("/:id", roleMiddleware(...financeManagers), updateExpense);
 
-router.delete("/:id", deleteExpense);
+router.delete("/:id", roleMiddleware(...financeManagers), deleteExpense);
 
 export default router;

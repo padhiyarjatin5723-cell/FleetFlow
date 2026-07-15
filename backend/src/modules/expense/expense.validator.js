@@ -9,7 +9,7 @@ export const createExpenseSchema = z.object({
     "REPAIR",
     "OTHER",
   ]),
-  amount: z.number().positive(),
+  amount: z.coerce.number().positive(),
   description: z.string().optional(),
   expenseDate: z.coerce.date(),
 });

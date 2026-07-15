@@ -14,21 +14,22 @@ import {
 } from "./trip.controller.js";
 
 const router = Router();
+const tripManagers = ["ADMIN", "FLEET_MANAGER", "DISPATCHER"];
 
-router.post("/", authMiddleware, roleMiddleware("ADMIN"), createTrip);
+router.post("/", authMiddleware, roleMiddleware(...tripManagers), createTrip);
 
 router.get("/", authMiddleware, getAllTrips);
 router.get("/completed", authMiddleware, getCompletedTrips);
 router.get("/:id", authMiddleware, getTripById);
 
-router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), updateTrip);
+router.put("/:id", authMiddleware, roleMiddleware(...tripManagers), updateTrip);
 router.patch(
   "/:id/status",
   authMiddleware,
-  roleMiddleware("ADMIN"),
+  roleMiddleware(...tripManagers),
   updateTripStatus
 );
 
-router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), deleteTrip);
+router.delete("/:id", authMiddleware, roleMiddleware(...tripManagers), deleteTrip);
 
 export default router;

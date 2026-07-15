@@ -1,13 +1,18 @@
 import expenseService from "./expense.service.js";
 import asyncHandler from "../../utils/asyncHandler.js";
 import ApiResponse from "../../utils/ApiResponse.js";
+import {
+  createExpenseSchema,
+  updateExpenseSchema,
+} from "./expense.validator.js";
 
 export const createExpense = asyncHandler(async (req, res) => {
-  const expense = await expenseService.createExpense(req.body);
+  const data = createExpenseSchema.parse(req.body);
+  const expense = await expenseService.createExpense(data);
 
   return res
     .status(201)
-    .json(new ApiResponse(201, expense, "Expense created successfully"));
+    .json(new ApiResponse(201, "Expense created successfully", expense));
 });
 
 export const getAllExpenses = asyncHandler(async (req, res) => {
@@ -15,7 +20,7 @@ export const getAllExpenses = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, expenses, "Expenses fetched successfully"));
+    .json(new ApiResponse(200, "Expenses fetched successfully", expenses));
 });
 
 export const getExpenseById = asyncHandler(async (req, res) => {
@@ -23,15 +28,16 @@ export const getExpenseById = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, expense, "Expense fetched successfully"));
+    .json(new ApiResponse(200, "Expense fetched successfully", expense));
 });
 
 export const updateExpense = asyncHandler(async (req, res) => {
-  const expense = await expenseService.updateExpense(req.params.id, req.body);
+  const data = updateExpenseSchema.parse(req.body);
+  const expense = await expenseService.updateExpense(req.params.id, data);
 
   return res
     .status(200)
-    .json(new ApiResponse(200, expense, "Expense updated successfully"));
+    .json(new ApiResponse(200, "Expense updated successfully", expense));
 });
 
 export const deleteExpense = asyncHandler(async (req, res) => {
@@ -39,5 +45,5 @@ export const deleteExpense = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, null, "Expense deleted successfully"));
+    .json(new ApiResponse(200, "Expense deleted successfully", null));
 });

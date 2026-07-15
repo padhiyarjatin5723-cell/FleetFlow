@@ -9,8 +9,8 @@ const normalizeTripData = (data) => {
 
   return {
     ...rest,
-    cargoWeightkg: cargoWeightKg,
-    status: data.status || "PLANNED",
+    ...(cargoWeightKg !== undefined ? { cargoWeightkg: cargoWeightKg } : {}),
+    ...(data.status ? { status: data.status } : {}),
   };
 };
 
@@ -96,7 +96,10 @@ class TripService {
     const shouldDispatch = ["ASSIGNED", "IN_PROGRESS"].includes(data.status);
 
     if (!shouldDispatch) {
-      return await tripRepository.createTrip(normalizeTripData(data));
+      return await tripRepository.createTrip({
+        ...normalizeTripData(data),
+        status: data.status || "PLANNED",
+      });
     }
 
     return await prisma.$transaction(async (tx) => {

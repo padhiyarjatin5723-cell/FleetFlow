@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import driverService from "../../services/driver.service";
 
 const DriverForm = ({ driver, setOpen, reload }) => {

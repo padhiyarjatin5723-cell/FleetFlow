@@ -6,17 +6,20 @@ export const createNotification = (data) => {
   });
 };
 
-export const getNotifications = () => {
+export const getNotifications = (userId) => {
   return prisma.notification.findMany({
+    where: {
+      userId,
+    },
     orderBy: {
       createdAt: "desc",
     },
   });
 };
 
-export const getNotificationById = (id) => {
-  return prisma.notification.findUnique({
-    where: { id },
+export const getNotificationById = (id, userId) => {
+  return prisma.notification.findFirst({
+    where: { id, userId },
   });
 };
 

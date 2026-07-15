@@ -7,26 +7,22 @@ import {
   deleteFuel,
 } from "./fuel.controller.js";
 
-import validate from "../../middleware/validate.middleware.js";
-import {
-  createFuelSchema,
-  updateFuelSchema,
-} from "./fuel.validator.js";
-
 import authMiddleware from "../../middleware/auth.middleware.js";
+import roleMiddleware from "../../middleware/role.middleware.js";
 
 const router = Router();
+const financeManagers = ["ADMIN", "FLEET_MANAGER", "FINANCIAL_ANALYST"];
 
 router.use(authMiddleware);
 
-router.post("/", validate(createFuelSchema), createFuel);
+router.post("/", roleMiddleware(...financeManagers), createFuel);
 
 router.get("/", getAllFuel);
 
 router.get("/:id", getFuelById);
 
-router.put("/:id", validate(updateFuelSchema), updateFuel);
+router.put("/:id", roleMiddleware(...financeManagers), updateFuel);
 
-router.delete("/:id", deleteFuel);
+router.delete("/:id", roleMiddleware(...financeManagers), deleteFuel);
 
 export default router;

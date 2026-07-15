@@ -17,7 +17,7 @@ export const createNotification = async (req, res, next) => {
 
 export const getNotifications = async (req, res, next) => {
   try {
-    const notifications = await notificationService.getNotifications();
+    const notifications = await notificationService.getNotifications(req.user.id);
 
     res.status(200).json({
       success: true,
@@ -33,7 +33,8 @@ export const getNotifications = async (req, res, next) => {
 export const getNotificationById = async (req, res, next) => {
   try {
     const notification = await notificationService.getNotificationById(
-      req.params.id
+      req.params.id,
+      req.user.id
     );
 
     res.status(200).json({
@@ -51,6 +52,7 @@ export const updateNotification = async (req, res, next) => {
   try {
     const notification = await notificationService.updateNotification(
       req.params.id,
+      req.user.id,
       req.body
     );
 
@@ -67,7 +69,7 @@ export const updateNotification = async (req, res, next) => {
 
 export const deleteNotification = async (req, res, next) => {
   try {
-    await notificationService.deleteNotification(req.params.id);
+    await notificationService.deleteNotification(req.params.id, req.user.id);
 
     res.status(200).json({
       success: true,

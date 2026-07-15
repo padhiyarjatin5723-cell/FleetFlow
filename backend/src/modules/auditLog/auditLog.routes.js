@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth.middleware.js";
+import roleMiddleware from "../../middleware/role.middleware.js";
 import validate from "../../middleware/validate.middleware.js";
 
 import {
@@ -18,6 +19,7 @@ import {
 const router = Router();
 
 router.use(authMiddleware);
+router.use(roleMiddleware("ADMIN"));
 
 router.post(
   "/",

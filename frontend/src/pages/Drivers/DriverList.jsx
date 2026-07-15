@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import driverService from "../../services/driver.service";
 import DriverTable from "../../components/Driver/DriverTable";
 import DriverModal from "../../components/Driver/DriverModal";
@@ -24,7 +24,11 @@ const DriverList = () => {
   }, []);
 
   useEffect(() => {
-    loadDrivers();
+    const timeoutId = window.setTimeout(() => {
+      loadDrivers();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
   }, [loadDrivers]);
 
   const handleAdd = () => {

@@ -1,4 +1,3 @@
-import React from "react";
 import DriverForm from "./DriverForm";
 
 const DriverModal = ({ open, setOpen, driver, reload }) => {

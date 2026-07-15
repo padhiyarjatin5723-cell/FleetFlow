@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const emptyToUndefined = (value) => value === "" || value === null ? undefined : value;
+
 export const createDriverSchema = z.object({
   employeeCode: z
     .string()
@@ -11,10 +13,10 @@ export const createDriverSchema = z.object({
     .min(3)
     .max(150),
 
-  email: z
-    .string()
-    .email()
-    .toLowerCase(),
+  email: z.preprocess(
+    emptyToUndefined,
+    z.string().email().toLowerCase().optional()
+  ),
 
   phone: z
     .string()
@@ -29,7 +31,7 @@ export const createDriverSchema = z.object({
   licenseExpiry: z.coerce.date(),
 
   experienceYears: z
-    .number()
+    .coerce.number()
     .int()
     .min(0),
 
@@ -40,14 +42,14 @@ export const createDriverSchema = z.object({
     "SUSPENDED",
   ]),
 
-  joiningDate: z.coerce.date().optional(),
+  joiningDate: z.preprocess(emptyToUndefined, z.coerce.date().optional()),
 
-  address: z.string().optional(),
+  address: z.preprocess(emptyToUndefined, z.string().optional()),
 
-  emergencyContact: z
-    .string()
-    .max(20)
-    .optional(),
+  emergencyContact: z.preprocess(
+    emptyToUndefined,
+    z.string().max(20).optional()
+  ),
 });
 
 export const updateDriverSchema =

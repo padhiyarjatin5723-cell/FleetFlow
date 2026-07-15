@@ -1,5 +1,3 @@
-import React from "react";
-
 const DriverTable = ({ drivers, onEdit, onDelete }) => {
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
