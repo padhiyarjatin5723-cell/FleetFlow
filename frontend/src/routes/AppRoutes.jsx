@@ -11,6 +11,8 @@ import ExpenseList from "../pages/Expenses/ExpenseList";
 import DocumentList from "../pages/Documents/DocumentList";
 import NotificationList from "../pages/Notifications/NotificationList";
 import AuditLogList from "../pages/AuditLogs/AuditLogList";
+import AnalyticsDashboard from "../pages/Analytics/AnalyticsDashboard";
+import ReportsDashboard from "../pages/Reports/ReportsDashboard";
 
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "../layouts/MainLayout";
@@ -39,6 +41,8 @@ const AppRoutes = () => {
           <Route path="/fuel" element={<FuelList />} />
           <Route path="/expenses" element={<ExpenseList />} />
           <Route path="/documents" element={<DocumentList />} />
+          <Route path="/analytics" element={<AnalyticsDashboard />} />
+          <Route path="/reports" element={<ReportsDashboard />} />
           <Route path="/notifications" element={<NotificationList />} />
           <Route path="/audit-logs" element={<AuditLogList />} />
 
