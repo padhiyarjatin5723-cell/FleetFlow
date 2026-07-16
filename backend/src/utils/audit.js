@@ -1,5 +1,10 @@
 import prisma from "../config/prisma.js";
 
+const toJsonValue = (value) => {
+  if (value === undefined || value === null) return undefined;
+  return JSON.parse(JSON.stringify(value));
+};
+
 export const writeAuditLog = async ({
   userId,
   action,
@@ -17,8 +22,8 @@ export const writeAuditLog = async ({
       action,
       entityType,
       entityId: entityId || null,
-      oldData: oldData || undefined,
-      newData: newData || undefined,
+      oldData: toJsonValue(oldData),
+      newData: toJsonValue(newData),
       ipAddress: ipAddress || null,
     },
   });

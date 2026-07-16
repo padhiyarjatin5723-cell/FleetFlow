@@ -24,6 +24,22 @@ class MaintenanceService {
       );
     }
 
+    const openMaintenance = await prisma.maintenance.findFirst({
+      where: {
+        vehicleId: data.vehicleId,
+        status: {
+          in: openStatuses,
+        },
+      },
+    });
+
+    if (openMaintenance && openStatuses.includes(data.status || "SCHEDULED")) {
+      throw new ApiError(
+        409,
+        "Vehicle already has an open maintenance record"
+      );
+    }
+
     return await prisma.$transaction(async (tx) => {
       const maintenance = await tx.maintenance.create({
         data: {

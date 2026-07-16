@@ -1,6 +1,7 @@
 import fuelService from "./fuel.service.js";
 import asyncHandler from "../../utils/asyncHandler.js";
 import ApiResponse from "../../utils/ApiResponse.js";
+import { writeAuditLog } from "../../utils/audit.js";
 import {
   createFuelSchema,
   updateFuelSchema,
@@ -9,6 +10,14 @@ import {
 export const createFuel = asyncHandler(async (req, res) => {
   const data = createFuelSchema.parse(req.body);
   const fuel = await fuelService.createFuel(data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "FUEL_LOG_CREATED",
+    entityType: "FuelLog",
+    entityId: fuel.id,
+    newData: fuel,
+    ipAddress: req.ip,
+  });
 
   return res
     .status(201)
@@ -33,7 +42,17 @@ export const getFuelById = asyncHandler(async (req, res) => {
 
 export const updateFuel = asyncHandler(async (req, res) => {
   const data = updateFuelSchema.parse(req.body);
+  const oldFuel = await fuelService.getFuelById(req.params.id);
   const fuel = await fuelService.updateFuel(req.params.id, data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "FUEL_LOG_UPDATED",
+    entityType: "FuelLog",
+    entityId: fuel.id,
+    oldData: oldFuel,
+    newData: fuel,
+    ipAddress: req.ip,
+  });
 
   return res
     .status(200)
@@ -42,6 +61,13 @@ export const updateFuel = asyncHandler(async (req, res) => {
 
 export const deleteFuel = asyncHandler(async (req, res) => {
   await fuelService.deleteFuel(req.params.id);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "FUEL_LOG_DELETED",
+    entityType: "FuelLog",
+    entityId: req.params.id,
+    ipAddress: req.ip,
+  });
 
   return res
     .status(200)

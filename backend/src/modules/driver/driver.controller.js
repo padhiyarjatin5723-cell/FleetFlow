@@ -1,6 +1,7 @@
 import driverService from "./driver.service.js";
 import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";
+import { writeAuditLog } from "../../utils/audit.js";
 import {
   createDriverSchema,
   updateDriverSchema,
@@ -9,6 +10,14 @@ import {
 export const createDriver = asyncHandler(async (req, res) => {
   const data = createDriverSchema.parse(req.body);
   const driver = await driverService.createDriver(data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "DRIVER_CREATED",
+    entityType: "Driver",
+    entityId: driver.id,
+    newData: driver,
+    ipAddress: req.ip,
+  });
 
   return res.status(201).json(
     new ApiResponse(201, "Driver created successfully", driver)
@@ -49,7 +58,17 @@ export const getDriverTrips = asyncHandler(async (req, res) => {
 
 export const updateDriver = asyncHandler(async (req, res) => {
   const data = updateDriverSchema.parse(req.body);
+  const oldDriver = await driverService.getDriverById(req.params.id);
   const driver = await driverService.updateDriver(req.params.id, data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "DRIVER_UPDATED",
+    entityType: "Driver",
+    entityId: driver.id,
+    oldData: oldDriver,
+    newData: driver,
+    ipAddress: req.ip,
+  });
 
   return res.status(200).json(
     new ApiResponse(200, "Driver updated successfully", driver)
@@ -62,6 +81,14 @@ export const updateDriverStatus = asyncHandler(async (req, res) => {
     req.body.status,
     req.body.reason
   );
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "DRIVER_STATUS_UPDATED",
+    entityType: "Driver",
+    entityId: driver.id,
+    newData: driver,
+    ipAddress: req.ip,
+  });
 
   return res.status(200).json(
     new ApiResponse(200, "Driver status updated successfully", driver)
@@ -70,6 +97,13 @@ export const updateDriverStatus = asyncHandler(async (req, res) => {
 
 export const deleteDriver = asyncHandler(async (req, res) => {
   const result = await driverService.deleteDriver(req.params.id);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "DRIVER_DELETED",
+    entityType: "Driver",
+    entityId: req.params.id,
+    ipAddress: req.ip,
+  });
 
   return res.status(200).json(
     new ApiResponse(200, result.message, null)

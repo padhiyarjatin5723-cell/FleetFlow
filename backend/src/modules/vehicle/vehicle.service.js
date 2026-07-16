@@ -14,6 +14,13 @@ class VehicleService {
       throw new ApiError(409, "Vehicle registration number already exists");
     }
 
+    if (["ON_TRIP", "IN_MAINTENANCE"].includes(data.status)) {
+      throw new ApiError(
+        422,
+        "ON_TRIP and IN_MAINTENANCE are system-controlled vehicle statuses"
+      );
+    }
+
     return await vehicleRepository.createVehicle({
       ...data,
       status: data.status || "AVAILABLE",
@@ -60,6 +67,22 @@ class VehicleService {
           "Registration number cannot be changed while vehicle has an active trip"
         );
       }
+    }
+
+    if (data.status) {
+      const { status, ...vehicleData } = data;
+
+      if (status === vehicle.status) {
+        return Object.keys(vehicleData).length > 0
+          ? await vehicleRepository.updateVehicle(id, vehicleData)
+          : vehicle;
+      }
+
+      if (Object.keys(vehicleData).length > 0) {
+        await vehicleRepository.updateVehicle(id, vehicleData);
+      }
+
+      return await this.updateVehicleStatus(id, status);
     }
 
     return await vehicleRepository.updateVehicle(id, data);

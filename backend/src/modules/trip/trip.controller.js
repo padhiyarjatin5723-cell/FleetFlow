@@ -1,6 +1,7 @@
 import tripService from "./trip.service.js";
 import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";
+import { writeAuditLog } from "../../utils/audit.js";
 import {
   createTripSchema,
   updateTripSchema,
@@ -10,6 +11,14 @@ import {
 export const createTrip = asyncHandler(async (req, res) => {
   const data = createTripSchema.parse(req.body);
   const trip = await tripService.createTrip(data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "TRIP_CREATED",
+    entityType: "Trip",
+    entityId: trip.id,
+    newData: trip,
+    ipAddress: req.ip,
+  });
 
   return res.status(201).json(
     new ApiResponse(201, "Trip created successfully", trip)
@@ -42,7 +51,17 @@ export const getTripById = asyncHandler(async (req, res) => {
 
 export const updateTrip = asyncHandler(async (req, res) => {
   const data = updateTripSchema.parse(req.body);
+  const oldTrip = await tripService.getTripById(req.params.id);
   const trip = await tripService.updateTrip(req.params.id, data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "TRIP_UPDATED",
+    entityType: "Trip",
+    entityId: trip.id,
+    oldData: oldTrip,
+    newData: trip,
+    ipAddress: req.ip,
+  });
 
   return res.status(200).json(
     new ApiResponse(200, "Trip updated successfully", trip)
@@ -51,7 +70,17 @@ export const updateTrip = asyncHandler(async (req, res) => {
 
 export const updateTripStatus = asyncHandler(async (req, res) => {
   const data = updateTripStatusSchema.parse(req.body);
+  const oldTrip = await tripService.getTripById(req.params.id);
   const trip = await tripService.updateTripStatus(req.params.id, data);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "TRIP_STATUS_UPDATED",
+    entityType: "Trip",
+    entityId: trip.id,
+    oldData: oldTrip,
+    newData: trip,
+    ipAddress: req.ip,
+  });
 
   return res.status(200).json(
     new ApiResponse(200, "Trip status updated successfully", trip)
@@ -60,6 +89,13 @@ export const updateTripStatus = asyncHandler(async (req, res) => {
 
 export const deleteTrip = asyncHandler(async (req, res) => {
   const result = await tripService.deleteTrip(req.params.id);
+  await writeAuditLog({
+    userId: req.user?.id,
+    action: "TRIP_DELETED",
+    entityType: "Trip",
+    entityId: req.params.id,
+    ipAddress: req.ip,
+  });
 
   return res.status(200).json(
     new ApiResponse(200, result.message, null)

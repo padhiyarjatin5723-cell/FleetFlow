@@ -77,6 +77,20 @@ class DriverService {
       throw new ApiError(422, "License expiry must be a future date");
     }
 
+    if (data.status) {
+      const { status, ...profileData } = data;
+      const updatedDriver =
+        Object.keys(profileData).length > 0
+          ? await driverRepository.updateDriver(id, profileData)
+          : await this.getDriverById(id);
+
+      if (status !== updatedDriver.status) {
+        return await this.updateDriverStatus(id, status);
+      }
+
+      return updatedDriver;
+    }
+
     return await driverRepository.updateDriver(id, data);
   }
 
