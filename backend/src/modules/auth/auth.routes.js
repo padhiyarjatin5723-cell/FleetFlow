@@ -15,6 +15,7 @@ import {
 
 const router = Router();
 
+router.get("/roles", getRoles);
 router.post("/register", register);
 router.post("/login", login);
 router.post("/refresh", refresh);

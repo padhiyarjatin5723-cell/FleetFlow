@@ -61,6 +61,10 @@ class AuthService {
     };
   }
 
+  async getRoles() {
+    return await authRepository.findAllRoles();
+  }
+
   async login(data) {
     const user = await authRepository.findUserByEmail(data.email);
 

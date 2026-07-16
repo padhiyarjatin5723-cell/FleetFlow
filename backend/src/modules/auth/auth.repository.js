@@ -21,6 +21,12 @@ class AuthRepository {
     });
   }
 
+  async findAllRoles() {
+    return await prisma.role.findMany({
+      orderBy: { name: "asc" },
+    });
+  }
+
   async findUserById(id) {
     return await prisma.user.findUnique({
       where: {

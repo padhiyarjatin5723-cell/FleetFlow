@@ -192,7 +192,7 @@ const Login = () => {
                   <label className="text-sm font-medium text-slate-600" htmlFor="password">
                     Password
                   </label>
-                  <button className="text-sm font-medium text-blue-700 hover:underline" type="button">
+                  <button onClick={() => navigate("/forgot-password")} className="text-sm font-medium text-blue-700 hover:underline" type="button">
                     Forgot Password?
                   </button>
                 </div>

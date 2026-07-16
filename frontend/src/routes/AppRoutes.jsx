@@ -1,6 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "../pages/Login/Login";
+import Register from "../pages/Auth/Register";
+import ForgotPassword from "../pages/Auth/ForgotPassword";
+import ResetPassword from "../pages/Auth/ResetPassword";
+import ChangePassword from "../pages/Auth/ChangePassword";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import VehicleList from "../pages/Vehicles/VehicleList";
 import DriverList from "../pages/Drivers/DriverList";
@@ -13,6 +17,8 @@ import NotificationList from "../pages/Notifications/NotificationList";
 import AuditLogList from "../pages/AuditLogs/AuditLogList";
 import AnalyticsDashboard from "../pages/Analytics/AnalyticsDashboard";
 import ReportsDashboard from "../pages/Reports/ReportsDashboard";
+import VehicleReport from "../pages/Reports/VehicleReport";
+import DriverReport from "../pages/Reports/DriverReport";
 
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "../layouts/MainLayout";
@@ -24,6 +30,9 @@ const AppRoutes = () => {
 
         <Route path="/" element={<Navigate to="/dashboard" />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route
           element={
@@ -43,6 +52,9 @@ const AppRoutes = () => {
           <Route path="/documents" element={<DocumentList />} />
           <Route path="/analytics" element={<AnalyticsDashboard />} />
           <Route path="/reports" element={<ReportsDashboard />} />
+          <Route path="/reports/vehicle/:id" element={<VehicleReport />} />
+          <Route path="/reports/driver/:id" element={<DriverReport />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/notifications" element={<NotificationList />} />
           <Route path="/audit-logs" element={<AuditLogList />} />
 

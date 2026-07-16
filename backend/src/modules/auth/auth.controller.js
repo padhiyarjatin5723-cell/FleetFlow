@@ -13,6 +13,18 @@ import {
   changePasswordSchema,
 } from "./auth.validator.js";
 
+export const getRoles = asyncHandler(async (req, res) => {
+  const result = await authService.getRoles();
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Roles fetched successfully",
+      result
+    )
+  );
+});
+
 export const register = asyncHandler(async (req, res) => {
   const data = registerSchema.parse(req.body);
 
