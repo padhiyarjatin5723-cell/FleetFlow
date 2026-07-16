@@ -3,6 +3,7 @@ import authMiddleware from "../../middleware/auth.middleware.js";
 
 import {
   register,
+  getRoles,
   login,
   refresh,
   logout,
