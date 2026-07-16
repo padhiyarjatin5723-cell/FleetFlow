@@ -1,6 +1,7 @@
 import authService from "./auth.service.js";
 import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";
+import { sanitizeUser } from "../../utils/sanitize.js";
 import {
   registerSchema,
   loginSchema,
@@ -69,9 +70,9 @@ export const logout = asyncHandler(async (req, res) => {
 });
 
 export const logoutAll = asyncHandler(async (req, res) => {
-  const data = logoutAllSchema.parse(req.body);
+  const data = logoutAllSchema.partial().parse(req.body);
 
-  const result = await authService.logoutAll(data.userId);
+  const result = await authService.logoutAll(data.userId || req.user.id);
 
   return res.status(200).json(
     new ApiResponse(
@@ -136,7 +137,7 @@ export const me = asyncHandler(async (req, res) => {
     new ApiResponse(
       200,
       "Current user fetched successfully",
-      req.user
+      sanitizeUser(req.user)
     )
   );
 });

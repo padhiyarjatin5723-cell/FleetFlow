@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import authRepository from "./auth.repository.js";
 import ApiError from "../../utils/ApiError.js";
 import { env } from "../../config/env.js";
+import { sanitizeUser } from "../../utils/sanitize.js";
 
 import {
   generateAccessToken,
@@ -54,7 +55,7 @@ class AuthService {
     });
 
     return {
-      user,
+      user: sanitizeUser({ ...user, role }),
       accessToken,
       refreshToken,
     };
@@ -65,6 +66,10 @@ class AuthService {
 
     if (!user) {
       throw new ApiError(401, "Invalid email or password");
+    }
+
+    if (!user.isActive || user.deletedAt) {
+      throw new ApiError(403, "Account is inactive");
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -92,7 +97,7 @@ class AuthService {
     });
 
     return {
-      user,
+      user: sanitizeUser(user),
       accessToken,
       refreshToken,
     };
@@ -117,6 +122,10 @@ class AuthService {
 
     if (!user) {
       throw new ApiError(401, "User not found");
+    }
+
+    if (!user.isActive || user.deletedAt) {
+      throw new ApiError(403, "Account is inactive");
     }
 
     await authRepository.revokeRefreshToken(refreshToken);

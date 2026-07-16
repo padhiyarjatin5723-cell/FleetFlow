@@ -21,6 +21,10 @@ const authMiddleware = async (req, res, next) => {
       throw new ApiError(401, "User not found");
     }
 
+    if (!user.isActive || user.deletedAt) {
+      throw new ApiError(403, "Account is inactive");
+    }
+
     req.user = user;
 
     next();
